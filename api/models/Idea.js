@@ -17,8 +17,13 @@ module.exports = {
             minLength: 20,
             maxLength: 400
         },
-        owner: {
-            model: 'steam'
+        stream: {
+            model: 'stream'
+        },
+        tags: {
+            collection: 'tag',
+            via: 'ideas',
+            dominant: true
         }
 	}
 };

@@ -17,7 +17,7 @@ module.exports = {
 		},
         ideas : {
             collection: 'idea',
-            via: 'owner'
+            via: 'stream'
         }
 	}
 };

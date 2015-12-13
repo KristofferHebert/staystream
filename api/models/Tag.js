@@ -8,7 +8,14 @@
 module.exports = {
 
   attributes: {
-
+      name: {
+          unique: true,
+          minLength: 3,
+          maxLength: 25
+      },
+      ideas: {
+          collection: 'idea',
+          via: 'tags'
+      }
   }
 };
-
