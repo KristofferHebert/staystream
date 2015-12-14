@@ -13,6 +13,12 @@ function hashPassword(user, next){
     next(null, user)
 }
 
+function removePasswordFromJSON(){
+    var obj = this.toObject()
+      delete obj.password
+      return obj
+}
+
 module.exports = {
 
 	attributes: {
@@ -32,12 +38,13 @@ module.exports = {
 		authorization: {
 			type: 'integer',
 			defaultsTo: 1
-		}
+		},
+        streams: {
+            collection: 'stream',
+            via: 'owner'
+        },
+        toJSON: removePasswordFromJSON
 	},
-    streams: {
-        collection: 'stream',
-        via: 'owner'
-    },
     beforeUpdate: hashPassword,
     beforeCreate: hashPassword
 }
