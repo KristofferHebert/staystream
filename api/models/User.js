@@ -43,6 +43,10 @@ module.exports = {
             collection: 'stream',
             via: 'owner'
         },
+        active: {
+            type: 'boolean',
+            defaultsTo: true
+        },
         toJSON: removePasswordFromJSON
 	},
     beforeUpdate: hashPassword,

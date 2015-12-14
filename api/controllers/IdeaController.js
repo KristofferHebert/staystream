@@ -6,6 +6,18 @@
  */
 
 module.exports = {
-	
+	search: function(req, res){
+		var query = req.body.query
+		Idea.find()
+		.where({
+			or: [
+				{ name: { contains: query}},
+				{ content: { contains: query}}
+			]
+		})
+		.exec(function(err, data){
+			if(err) res.json(err)
+			res.json(data)
+		})
+	}
 };
-
