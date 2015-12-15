@@ -7,7 +7,8 @@
 
 module.exports = {
 	search: function(req, res){
-		var query = req.body.query
+
+		var query = req.query.q || ""
 		Idea.find()
 		.where({
 			or: [
