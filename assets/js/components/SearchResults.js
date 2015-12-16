@@ -1,12 +1,13 @@
 var SearchResult = React.createClass({
-    getDefaultProps: {
+    getDefaultProps: function(){
       return {
           handleClick: function(){}
         }
     },
     render: function(){
+        var link = "/" + this.props.resultId
        return (
-       <li key={this.props.key} id={this.props.resultId}><a href="#" onClick={this.props.handleClick}>{this.props.name}</a></li>
+       <li key={this.props.key} id={this.props.resultId}><a href={link} onClick={this.props.handleClick}>{this.props.name}</a></li>
        )
     }
 
