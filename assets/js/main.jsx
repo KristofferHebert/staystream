@@ -1,2 +1,7 @@
-var Login = require('./components/login.jsx')
-ReactDOM.render(<Login method="POST" action="/api/v1/auth" />, document.getElementById('app'))
+var HelloWorld = React.createClass({
+    render: function(){
+        return <h1>Hello World</h1>
+    }
+})
+
+ReactDOM.render(<HelloWorld />, document.getElementById('app'))

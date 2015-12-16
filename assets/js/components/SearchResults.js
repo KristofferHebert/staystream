@@ -5,7 +5,7 @@ var SearchResult = React.createClass({
         }
     },
     render: function(){
-        var link = "/" + this.props.resultId
+        var link = "/idea/" + this.props.resultId
        return (
        <li key={this.props.key} id={this.props.resultId}><a href={link} onClick={this.props.handleClick}>{this.props.name}</a></li>
        )

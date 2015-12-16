@@ -1,10 +1,12 @@
-import React from 'react';
-import Input from './input'
-import Form from './form'
-import Submit from './submit'
+'use strict'
 
-let Signup = React.createClass({
-    render(){
+var Input = require('./input.jsx')
+var Form = require('./form.jsx')
+var Submit = require('./submit.jsx')
+
+
+var Signup = React.createClass({
+    render: function(){
         return (
             <Form method={this.props.method} action={this.props.action} onSubmit={this.props.onSubmit} className={this.props.className}>
                 <Input type="text" name="username" placeholder="Username" className="input input-text" />
@@ -16,4 +18,4 @@ let Signup = React.createClass({
     }
 })
 
-export default Signup
+module.exports = Signup
