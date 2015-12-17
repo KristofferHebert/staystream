@@ -1,21 +1,37 @@
-function currentUser(){
-    return JSON.parse(localStorage.user) || false
+// Helper function to get current user after authenticating
+
+function CurrentUser(){
+    if(localStorage.user) return JSON.parse(localStorage.user)
+    return false
 }
 
-currentUser.prototype.id = function(){
-    var user = JSON.parse(localStorage.user)
-    return user.id || false
+CurrentUser.prototype.id = function(){
+    if(localStorage.user) {
+        var user = JSON.parse(localStorage.user)
+        return user.id
+    }
+    return false
 }
 
-currentUser.prototype.token = function(){
-    var user = JSON.parse(localStorage.user)
-    return user.token || false
+CurrentUser.prototype.token = function(){
+    if(localStorage.user) {
+        var user = JSON.parse(localStorage.user)
+        return user.token
+    }
+    return false
 }
 
-currentUser.prototype.set = function(json){
-    var user = JSON.stringify(localStorage.user)
-    localStorage.user = user
+CurrentUser.prototype.set = function(json){
+    var user = JSON.stringify(json)
+    localStorage.setItem('user', user)
     return user
 }
 
-module.exports = currentUser
+CurrentUser.prototype.get = function(){
+    var user = localStorage.getItem(user)
+    if(user) return JSON.parse(user)
+    return false
+}
+
+
+module.exports = CurrentUser
