@@ -1,3 +1,3 @@
 # Staystream
 
-Help you with building the habit of writing ideas down daily.
+Helps you with building the daily habit of writing ideas down.
