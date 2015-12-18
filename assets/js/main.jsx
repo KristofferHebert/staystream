@@ -2,11 +2,15 @@ var Router = require('react-router').Router
 var Route = require('react-router').Route
 var Link = require('react-router').Link
 
+var HomePage = require('./pages/homepage.jsx')
 
-var HelloWorld = React.createClass({
+
+var App = React.createClass({
     render: function(){
-        return <h1>Hello World</h1>
+        return (
+            <HomePage />
+        )
     }
 })
 
-ReactDOM.render(<HelloWorld />, document.getElementById('app'))
+ReactDOM.render(<App />, document.getElementById('app'))
