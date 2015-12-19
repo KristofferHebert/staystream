@@ -1,100 +1,65 @@
-// var Router = require('react-router').Router
-// var Route = require('react-router').Route
-// var Link = require('react-router').Link
-//
-var createHistory = require('history').createHistory
+// import React from 'react'
+// import ReactDOM from 'react-dom'
+
+import { Router, Route, IndexRoute, Link, IndexLink } from 'react-router'
+import { createHistory, useBasename } from 'history'
+
 var history = createHistory()
-//
-// var Auth = require('./utils/auth.jsx')
-// var HomePage = require('./pages/homepage.jsx')
-//
-// var routes = (
-//     <Router history={history}>
-//         <Route path="/" component={HomePage}></Route>
-//     </Router>
-// )
-//
-//
-// var App = React.createClass({
-//     getInitialState: function(){
-//         return {
-//             isLoggedIn: Auth.isLoggedIn()
-//         }
-//     },
-//     render: function(){
-//         return (
-//             <div>
-//                 {routes}
-//             </div>
-//         )
-//     }
-// })
 
-import { Router, Route, Link } from 'react-router'
+var Auth = require('./utils/auth.jsx')
+var HomePage = require('./pages/homepage.jsx')
 
-const App = React.createClass({render() {} })
-const About = React.createClass({render() {} })
-const NoMatch = React.createClass({render() {
-    return "No Match"
-} })
-
-
-// etc.
-
-const Users = React.createClass({
-  render() {
-    return (
-      <div>
-        <h1>Users</h1>
-        <div className="master">
-          <ul>
-            {/* use Link to route around the app */}
-            {this.state.users.map(user => (
-              <li key={user.id}><Link to={`/user/${user.id}`}>{user.name}</Link></li>
-            ))}
-          </ul>
-        </div>
-        <div className="detail">
-          {this.props.children}
-        </div>
-      </div>
-    )
-  }
+var UserHomepage = React.createClass({
+    render: function(){
+        return (
+            <div>
+                <h2>User Homepage</h2>
+            </div>
+        )
+    }
+})
+var NotFoundPage = React.createClass({
+    render: function(){
+        return (
+            <div>
+                <h2>Not Found</h2>
+            </div>
+        )
+    }
 })
 
-const User = React.createClass({
-  componentDidMount() {
-    this.setState({
-      // route components are rendered with useful information, like URL params
-      user: findUserById(this.props.params.userId)
-    })
-  },
+// Todo fix history={history}
 
-  render() {
-    return (
-      <div>
-        <h2>{this.state.user.name}</h2>
-        {/* etc. */}
-      </div>
-    )
-  }
-})
-
-// Declarative route configuration (could also load this config lazily
-// instead, all you really need is a single root route, you don't need to
-// colocate the entire config).
-ReactDOM.render((
-  <Router history={history}>
+var routes = (
     <Route path="/" component={App}>
-      <Route path="about" component={About}/>
-      <Route path="users" component={Users}>
-        <Route path="/user/:userId" component={User}/>
+          <IndexRoute component={HomePage} />
+          <Route path="u" component={UserHomepage}>
+          </Route>
+          <Route path="*" component={NotFoundPage} />
       </Route>
-      <Route path="*" component={NoMatch}/>
-    </Route>
-  </Router>
-),  document.getElementById('app'))
+)
+
+
+var App = React.createClass({
+    getInitialState: function(){
+        return {
+            isLoggedIn: Auth.isLoggedIn()
+        }
+    },
+    render: function(){
+        return (
+            <div>
+                <h1>App</h1>
+                <ul>
+                  <li><Link to="/u">About</Link></li>
+                  <li><Link to="/inbox">Inbox</Link></li>
+                </ul>
+                {this.props.children}
+            </div>
+        )
+    }
+})
 
 
 
-// ReactDOM.render(<App />, document.getElementById('app'))
+ReactDOM.render(<Router>{routes}</Router>, document.getElementById('app'))

@@ -1,8 +1,6 @@
 // Fetch dependencies
-
-var Router = require('react-router').Router
-var Route = require('react-router').Route
-var Link = require('react-router').Link
+import Signup from '../components/signup.jsx'
+import Login from '../components/login.jsx'
 
 var HomePage = React.createClass({
     render: function(){
