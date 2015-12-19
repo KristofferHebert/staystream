@@ -3,7 +3,7 @@
 var Input = require('./input.jsx')
 var Form = require('./form.jsx')
 var Submit = require('./submit.jsx')
-
+var Auth = require('../utils/auth.jsx')
 
 var endpoint = '/api/v1/user'
 
@@ -15,8 +15,31 @@ var Signup = React.createClass({
     },
     handleSubmit: function(event){
         event.preventDefault()
-        console.log(this.state)
 
+        // get new user and modify for json
+        var newUser = this.state.user
+
+        var settings = {
+            method: 'POST',
+            body: JSON.stringify(newUser),
+            mode: 'cors'
+        }
+
+        console.log(newUser);
+        // post user object to create new user
+        fetch(endpoint, settings)
+        .then(function(response){
+            if(response.ok){
+                Auth.loginUser(newUser, function(err, response){
+                    if(err) throw err
+                    console.log(response.statusText)
+                })
+            }
+
+        }).catch(function(err){
+            console.log(err)
+            throw err
+        })
     },
     handleChange: function(event){
         let newState = this.state
@@ -31,7 +54,7 @@ var Signup = React.createClass({
     render: function(){
         return (
             <Form onSubmit={this.handleSubmit} className={this.props.className}>
-                <Input type="text" name="email" placeholder="Email" className="input input-text" onChange={this.handlechange} />
+                <Input type="email" name="email" placeholder="Email" className="input input-email" onChange={this.handleChange} />
                 <Input type="password" name="password" placeholder="Password" className="input input-password" onChange={this.handleChange} minLength="5" required="true"/>
                 <Submit value="Sign up" className="input input-submit"/>
             </Form>

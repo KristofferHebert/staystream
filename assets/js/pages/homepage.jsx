@@ -1,7 +1,8 @@
 // Fetch dependencies
-var Signup = require('../components/signup.jsx')
-var Login = require('../components/login.jsx')
-var Auth = require('../utils/auth.jsx')
+
+var Router = require('react-router').Router
+var Route = require('react-router').Route
+var Link = require('react-router').Link
 
 var HomePage = React.createClass({
     render: function(){
@@ -11,6 +12,8 @@ var HomePage = React.createClass({
                 <p>Organize your ideas</p>
                 <h3>Signup</h3>
                 <Signup />
+                <h3>Login</h3>
+                <Login />
             </div>
         )
     }

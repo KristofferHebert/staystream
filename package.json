@@ -5,6 +5,9 @@
   "description": "staystream helps you build the daily habit of writing ideas down",
   "keywords": [],
   "dependencies": {
+    "babel-plugin-transform-react-jsx": "^6.3.13",
+    "babel-preset-es2015": "^6.3.13",
+    "babelify": "^7.2.0",
     "bcrypt": "0.8.5",
     "grunt": "0.4.2",
     "grunt-browserify": "^4.0.1",
@@ -34,7 +37,7 @@
   },
   "scripts": {
     "dev": "pm2-dev app.js",
-    "compile": "watchify -t reactify assets/js/main.jsx -o assets/js/main.js",
+    "compile": "watchify -t babelify assets/js/main.jsx -o assets/js/main.js",
     "debug": "node debug app.js",
     "start": "node app.js"
   },
