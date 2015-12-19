@@ -4,7 +4,7 @@ var Submit = React.createClass({
             <input
                 type='submit'
                 className={this.props.className}
-                value={this.props.child}
+                value={this.props.value}
             />
         )
     }

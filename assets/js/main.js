@@ -8,20 +8,9 @@ var Form = React.createClass({displayName: "Form",
           action: '#'
         }
     },
-    handleChange(event){
-        let newState = this.state
-        newState.user[event.target.name] = event.target.value
-        this.setState(newState)
-        console.log(this.state)
-    },
-    getInitialState: function(){
-        return this.state = {
-            user: {}
-        }
-    },
     render: function(){
         return (
-            React.createElement("form", {method: this.props.method, action: this.props.action, onSubmit: this.props.handleSubmit, className: this.props.className}, 
+            React.createElement("form", {method: this.props.method, action: this.props.action, onSubmit: this.props.onSubmit, className: this.props.className}, 
                 this.props.children
             )
         )
@@ -39,9 +28,11 @@ var Input = React.createClass({displayName: "Input",
             React.createElement("input", {
                 type: this.props.type, 
                 name: this.props.name, 
+                value: this.props.value, 
                 placeholder: this.props.placeholder, 
                 className: this.props.className, 
-                onChange: this.props.handleChange}
+                onChange: this.props.onChange, 
+                minLength: this.props.minLength}
             )
         )
     }
@@ -78,14 +69,35 @@ var Form = require('./form.jsx')
 var Submit = require('./submit.jsx')
 
 
+var endpoint = '/api/v1/user'
+
 var Signup = React.createClass({displayName: "Signup",
+    setInitialState: function(){
+        return {
+            user: ''
+        }
+    },
+    handleSubmit: function(event){
+        event.preventDefault()
+        console.log(this.state)
+
+    },
+    handleChange: function(event){
+        let newState = this.state
+        newState.user[event.target.name] = event.target.value
+        this.setState(newState)
+    },
+    getInitialState: function(){
+        return this.state = {
+            user: {}
+        }
+    },
     render: function(){
         return (
-            React.createElement(Form, {method: this.props.method, action: this.props.action, onSubmit: this.props.onSubmit, className: this.props.className}, 
-                React.createElement(Input, {type: "text", name: "username", placeholder: "Username", className: "input input-text"}), 
-                React.createElement(Input, {type: "password", name: "password", placeholder: "Password", className: "input input-password"}), 
-                React.createElement(Input, {type: "password", name: "repeatPassword", placeholder: "Repeat Password", className: "input input-password"}), 
-                React.createElement(Submit, {value: "Submit", className: "input input-submit"})
+            React.createElement(Form, {onSubmit: this.handleSubmit, className: this.props.className}, 
+                React.createElement(Input, {type: "text", name: "email", placeholder: "Email", className: "input input-text", onChange: this.handlechange}), 
+                React.createElement(Input, {type: "password", name: "password", placeholder: "Password", className: "input input-password", onChange: this.handleChange, minLength: "5", required: "true"}), 
+                React.createElement(Submit, {value: "Sign up", className: "input input-submit"})
             )
         )
     }
@@ -100,7 +112,7 @@ var Submit = React.createClass({displayName: "Submit",
             React.createElement("input", {
                 type: "submit", 
                 className: this.props.className, 
-                value: this.props.child}
+                value: this.props.value}
             )
         )
     }
@@ -127,28 +139,19 @@ var App = React.createClass({displayName: "App",
 ReactDOM.render(React.createElement(App, null), document.getElementById('app'))
 
 },{"./pages/homepage.jsx":7,"react-router":53}],7:[function(require,module,exports){
-
-//
+// Fetch dependencies
 var Signup = require('../components/signup.jsx')
 var Login = require('../components/login.jsx')
-var getCurrentUser = require('../util/currentUser.jsx')
-
-//
-var currentUser = new getCurrentUser()
+var Auth = require('../utils/auth.jsx')
 
 var HomePage = React.createClass({displayName: "HomePage",
-    getDefaultProps: function() {
-        return {
-          signup: true,
-        }
-    },
     render: function(){
         return (
             React.createElement("div", null, 
-                React.createElement("h3", null, "Addictive Idea journal"), 
+                React.createElement("h2", null, "Addictive Idea journal"), 
                 React.createElement("p", null, "Organize your ideas"), 
-                React.createElement(Signup, null), 
-                React.createElement(Login, null)
+                React.createElement("h3", null, "Signup"), 
+                React.createElement(Signup, null)
             )
         )
     }
@@ -157,44 +160,44 @@ var HomePage = React.createClass({displayName: "HomePage",
 
 module.exports = HomePage
 
-},{"../components/login.jsx":3,"../components/signup.jsx":4,"../util/currentUser.jsx":8}],8:[function(require,module,exports){
+},{"../components/login.jsx":3,"../components/signup.jsx":4,"../utils/auth.jsx":8}],8:[function(require,module,exports){
 // Helper function to get current user after authenticating
 
-function CurrentUser(){
-    if(localStorage.user) return JSON.parse(localStorage.user)
-    return false
+var Auth = {}
+
+// Fetch user id
+Auth.getId = function(){
+    var user = Auth.getUser()
+    return (user.id) ? user.id : false
 }
 
-CurrentUser.prototype.id = function(){
-    if(localStorage.user) {
-        var user = JSON.parse(localStorage.user)
-        return user.id
-    }
-    return false
+// Fetch user token
+Auth.getToken = function(){
+    var user = Auth.getUser()
+    return (user.token) ? user.token : false
 }
 
-CurrentUser.prototype.token = function(){
-    if(localStorage.user) {
-        var user = JSON.parse(localStorage.user)
-        return user.token
-    }
-    return false
-}
-
-CurrentUser.prototype.set = function(json){
-    var user = JSON.stringify(json)
-    localStorage.setItem('user', user)
-    return user
-}
-
-CurrentUser.prototype.get = function(){
+// Fetch user data from localStorage
+Auth.getUser = function(){
     var user = localStorage.getItem(user)
     if(user) return JSON.parse(user)
     return false
 }
 
+// Used to populate localStorage.user with user data.
+Auth.login = function(json){
+    var user = JSON.stringify(json)
+    localStorage.setItem('user', user)
+    return user
+}
 
-module.exports = CurrentUser
+// Check if user is logged in 
+Auth.isLoggedIn = function(){
+    return (Auth.get()) ? true : false
+}
+
+
+module.exports = Auth
 
 },{}],9:[function(require,module,exports){
 /**

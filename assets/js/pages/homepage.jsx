@@ -1,25 +1,16 @@
-
-//
+// Fetch dependencies
 var Signup = require('../components/signup.jsx')
 var Login = require('../components/login.jsx')
-var getCurrentUser = require('../util/currentUser.jsx')
-
-//
-var currentUser = new getCurrentUser()
+var Auth = require('../utils/auth.jsx')
 
 var HomePage = React.createClass({
-    getDefaultProps: function() {
-        return {
-          signup: true,
-        }
-    },
     render: function(){
         return (
             <div>
-                <h3>Addictive Idea journal</h3>
+                <h2>Addictive Idea journal</h2>
                 <p>Organize your ideas</p>
+                <h3>Signup</h3>
                 <Signup />
-                <Login />
             </div>
         )
     }

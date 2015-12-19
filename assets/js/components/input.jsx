@@ -6,9 +6,11 @@ var Input = React.createClass({
             <input
                 type={this.props.type}
                 name={this.props.name}
+                value={this.props.value}
                 placeholder={this.props.placeholder}
                 className={this.props.className}
-                onChange={this.props.handleChange}
+                onChange={this.props.onChange}
+                minLength={this.props.minLength}
             />
         )
     }
