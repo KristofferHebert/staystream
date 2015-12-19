@@ -16,7 +16,7 @@ Auth.getToken = function(){
 
 // Fetch user data from localStorage
 Auth.getUser = function(){
-    var user = localStorage.getItem(user)
+    var user = localStorage.getItem('user')
     if(user) return JSON.parse(user)
     return false
 }
