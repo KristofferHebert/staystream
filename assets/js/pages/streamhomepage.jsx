@@ -23,7 +23,7 @@ var StreamHomepage = React.createClass({
         }
 
         if(user){
-            fetch('/api/v1/stream?owner=' + ownerId, settings)
+            fetch('/api/v1/stream?owner=' + ownerId + '&sort=updatedAt%20DE', settings)
             .then(function(response){
                 if(response.ok){
                     return response.json()

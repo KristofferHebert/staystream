@@ -12,6 +12,10 @@ import HomePage from './pages/homepage.jsx'
 import StreamHomepage from './pages/streamhomepage.jsx'
 import StreamPage from './pages/stream.jsx'
 import LoginPage from './pages/login.jsx'
+import LogoutPage from './pages/logout.jsx'
+
+import IdeaPage from './pages/idea.jsx'
+
 
 var UserHomepage = React.createClass({
     render: function(){
@@ -69,8 +73,12 @@ var routes = (
                     <IndexRoute component={StreamHomepage}/>
                     <Route path=":id" component={StreamPage}/>
             </Route>
-            <Route path="login" component={LoginPage}></Route>
+            <Route path="idea">
+                    <Route path=":id" component={IdeaPage}/>
+            </Route>
           </Route>
+          <Route path="logout" component={LogoutPage}></Route>
+          <Route path="login" component={LoginPage}></Route>
           <Route path="*" component={NotFoundPage} />
       </Route>
 )
@@ -87,7 +95,8 @@ var App = React.createClass({
             <div>
                 <h1>App</h1>
                 <ul>
-                  <li><Link to="/u">About</Link></li>
+                    <li><Link to="/u">About</Link></li>
+                    <li><Link to="/logout">Log Out</Link></li>
                 </ul>
                 {this.props.children}
             </div>

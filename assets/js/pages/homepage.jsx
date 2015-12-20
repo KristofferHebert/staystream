@@ -1,7 +1,7 @@
 // Fetch dependencies
 import Signup from '../components/signup.jsx'
 import Login from '../components/login.jsx'
-
+import {Link} from 'react-router'
 var HomePage = React.createClass({
     render: function(){
         return (
@@ -11,7 +11,8 @@ var HomePage = React.createClass({
                 <h3>Signup</h3>
                 <Signup />
                 <h3>Login</h3>
-                <Login />
+                <Link to={'/login'}>Click here to login</Link>
+
             </div>
         )
     }
