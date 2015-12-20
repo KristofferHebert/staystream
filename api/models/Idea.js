@@ -10,7 +10,7 @@ module.exports = {
 	attributes: {
         name: {
             type: 'string',
-            maxLength: 25
+            maxLength: 35
         },
         content: {
             type: 'string',
