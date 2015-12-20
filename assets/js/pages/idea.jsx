@@ -2,7 +2,7 @@ import Auth from '../utils/auth.jsx'
 
 import StreamList from '../components/streamlist.jsx'
 
-var StreamHomepage = React.createClass({
+var IdeaHomepage = React.createClass({
     getInitialState(){
         return {
             streams: []
@@ -49,4 +49,4 @@ var StreamHomepage = React.createClass({
     }
 })
 
-export default StreamHomepage
+export default IdeaHomepage

@@ -10,6 +10,8 @@ import requireAuth from './utils/auth.jsx'
 import Auth from './utils/auth.jsx'
 import HomePage from './pages/homepage.jsx'
 import StreamHomepage from './pages/streamhomepage.jsx'
+import StreamPage from './pages/stream.jsx'
+import LoginPage from './pages/login.jsx'
 
 var UserHomepage = React.createClass({
     render: function(){
@@ -17,7 +19,7 @@ var UserHomepage = React.createClass({
             <div>
                 <h1><Link to="/u/">Staystream</Link></h1>
                 <ul>
-                  <li><Link to="/u/stream">Stream</Link></li>
+                  <li><Link to="/u/stream">Your Streams</Link></li>
                 </ul>
                 {(Auth.isLoggedIn() ? 'is logged in': 'is not logged in')}
                 {this.props.children}
@@ -26,24 +28,6 @@ var UserHomepage = React.createClass({
     }
 })
 
-var Stream = React.createClass({
-    getInitialState(){
-        return {
-            id: 'undefined'
-        }
-    },
-    componentDidMount() {
-        const id = this.props.params.id
-        this.setState({id: id})
-    },
-    render(){
-        return (
-            <div>
-                <h2>Stream {this.state.id}</h2>
-            </div>
-        )
-    }
-})
 
 var Idea = React.createClass({
     getInitialState(){
@@ -83,8 +67,9 @@ var routes = (
           <Route path="u" component={UserHomepage}>
             <Route path="stream">
                     <IndexRoute component={StreamHomepage}/>
-                    <Route path=":id" component={Stream}/>
+                    <Route path=":id" component={StreamPage}/>
             </Route>
+            <Route path="login" component={LoginPage}></Route>
           </Route>
           <Route path="*" component={NotFoundPage} />
       </Route>
