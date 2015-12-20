@@ -8,12 +8,13 @@ var Auth = require('../utils/auth.jsx')
 var Login = React.createClass({
     getInitialState: function(){
         return this.state = {
-            user: {}
+            user: {},
+            message: ""
         }
     },
     handleSubmit: function(event){
         event.preventDefault()
-
+        var self = this
         // get new user and modify for json
         var User = this.state.user
 
@@ -25,6 +26,10 @@ var Login = React.createClass({
 
         Auth.loginUser(User, function(err, response){
             if(err) throw err
+            if(response.status == 401) {
+                return self.setState({message: 'Please provide correct credentials'})
+            }
+            self.setState({message: ''})
         })
     },
     handleChange: function(event){
@@ -38,6 +43,7 @@ var Login = React.createClass({
                 <Input type="text" name="email" placeholder="Email" className="input input-text" onChange={this.handleChange}/>
                 <Input type="password" name="password" placeholder="Password" className="input input-password" onChange={this.handleChange}/>
                 <Submit value="Submit" className="input input-submit"/>
+                {this.state.message}
             </Form>
         )
     }

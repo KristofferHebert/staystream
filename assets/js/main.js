@@ -105,12 +105,13 @@ var Auth = require('../utils/auth.jsx');
 var Login = React.createClass({
     getInitialState: function getInitialState() {
         return this.state = {
-            user: {}
+            user: {},
+            message: ""
         };
     },
     handleSubmit: function handleSubmit(event) {
         event.preventDefault();
-
+        var self = this;
         // get new user and modify for json
         var User = this.state.user;
 
@@ -122,6 +123,10 @@ var Login = React.createClass({
 
         Auth.loginUser(User, function (err, response) {
             if (err) throw err;
+            if (response.status == 401) {
+                return self.setState({ message: 'Please provide correct credentials' });
+            }
+            self.setState({ message: '' });
         });
     },
     handleChange: function handleChange(event) {
@@ -135,7 +140,8 @@ var Login = React.createClass({
             { method: this.props.method, action: this.props.action, onSubmit: this.handleSubmit, className: this.props.className },
             React.createElement(Input, { type: 'text', name: 'email', placeholder: 'Email', className: 'input input-text', onChange: this.handleChange }),
             React.createElement(Input, { type: 'password', name: 'password', placeholder: 'Password', className: 'input input-password', onChange: this.handleChange }),
-            React.createElement(Submit, { value: 'Submit', className: 'input input-submit' })
+            React.createElement(Submit, { value: 'Submit', className: 'input input-submit' }),
+            this.state.message
         );
     }
 });
