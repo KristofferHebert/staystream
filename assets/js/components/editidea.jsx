@@ -2,6 +2,8 @@ var Input = require('./input.jsx')
 var Form = require('./form.jsx')
 var Submit = require('./submit.jsx')
 
+
+
 // pass handleSubmit & handleChange from parent component
 var EditIdea = React.createClass({
     getDefaultProps() {

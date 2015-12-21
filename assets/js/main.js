@@ -650,6 +650,71 @@ var _editidea2 = _interopRequireDefault(_editidea);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var DeleteResource = React.createClass({
+    getInitialState: function getInitialState() {
+        return {
+            message: ""
+        };
+    },
+    handleDelete: function handleDelete() {
+        var resourceId = this.props.resourceId;
+
+        var token = _auth2.default.getUser();
+        var self = this;
+        var settings = {
+            method: 'delete',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer: ' + token
+            }
+        };
+
+        if (resourceId) {
+            fetch(this.props.endpoint + resourceId, settings).then(function (response) {
+                if (response.status === 200) {
+                    self.setState({ message: 'Idea Deleted!' });
+                    return response.json();
+                } else {
+                    self.setState({ message: 'Delete Failed' });
+                    return response;
+                }
+            }).then(function (data) {
+                if (data.id) {
+                    return self.setState({ 'idea': data, streamId: data.stream.id });
+                }
+                return console.log('Save failed', data);
+            });
+        }
+    },
+    render: function render() {
+        return React.createElement(
+            'div',
+            null,
+            React.createElement(
+                'a',
+                { onClick: this.handleDelete, className: this.props.className },
+                ' Delete '
+            ),
+            this.state.message
+        );
+    }
+});
+
+var Del = React.createClass({
+    render: function render() {
+        return React.createElement(
+            'div',
+            null,
+            React.createElement(
+                'p',
+                null,
+                '"hey"'
+            )
+        );
+    }
+});
+
 var IdeaHomepage = React.createClass({
     getInitialState: function getInitialState() {
         return {
@@ -747,6 +812,7 @@ var IdeaHomepage = React.createClass({
                 'Edit Idea'
             ),
             React.createElement(_editidea2.default, { idea: this.state.idea, streamId: this.state.streamId, handleChange: this.handleChange, handleSubmit: this.handleSubmit }),
+            React.createElement(DeleteResource, { resourceId: this.state.idea.id, endpoint: '/api/v1/idea/' }),
             this.state.message
         );
     }
