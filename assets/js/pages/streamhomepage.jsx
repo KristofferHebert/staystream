@@ -1,7 +1,7 @@
 import Auth from '../utils/auth.jsx'
 
 import StreamList from '../components/streamlist.jsx'
-import AddIdea from '../components/addidea.jsx'
+import AddStream from '../components/addstream.jsx'
 
 var StreamHomepage = React.createClass({
     getInitialState(){
@@ -13,7 +13,11 @@ var StreamHomepage = React.createClass({
                 "name": "",
                 "content": "",
             },
-            streamId: ""
+            streamId: "",
+            newStream: {
+                name: "",
+                owner: Auth.getId()
+            }
         }
     },
     fetchData(){
@@ -49,17 +53,17 @@ var StreamHomepage = React.createClass({
     },
     handleChange(event){
 
-        // Updates state when changed in AddIdea input fields
+        // Updates state when changed in AddStream input fields
         let newState = this.state
-        newState.newIdea[event.target.name] = event.target.value
+        newState.newStream[event.target.name] = event.target.value
         this.setState(newState)
     },
     handleSubmit(event){
         event.preventDefault()
-        this.saveData(this.state.newIdea)
+        this.saveData(this.state.newStream)
 
     },
-    saveData(idea){
+    saveData(stream){
         var token = Auth.getUser()
         var self = this
         var settings = {
@@ -69,15 +73,15 @@ var StreamHomepage = React.createClass({
                'Content-Type': 'application/json',
                'Authorization' : 'Bearer: ' + token
             },
-            body: JSON.stringify(idea)
+            body: JSON.stringify(stream)
         }
 
-        if(token && idea.id){
+        if(token && stream.name){
             self.setState({message: 'Saving...'})
-            fetch('/api/v1/idea/', settings)
+            fetch('/api/v1/stream/', settings)
             .then(function(response){
-                if(response.status === 200){
-                    self.setState({message: 'Idea Saved!'})
+                if(response.status === 201){
+                    self.setState({message: 'Stream Saved!'})
                     return response.json()
                 } else {
                     self.setState({message: 'Saving Failed'})
@@ -86,8 +90,8 @@ var StreamHomepage = React.createClass({
             })
             .then(function(data){
                 if(data.id){
-                    this.state.streams.ideas.concat([data])
-                    return self.setState({'newIdea': {}, streamId: {}})
+                    this.state.streams.concat([data])
+                    return self.setState({'newStream': {}})
                 }
                 return console.log('Save failed', data)
             })
@@ -98,7 +102,9 @@ var StreamHomepage = React.createClass({
             <div>
                 <h2>Your Streams</h2>
                 <StreamList streams={this.state.streams} />
-                <AddIdea handleSubmit={this.handleSubmit} handleChange={this.handleChange} />
+                <hr />
+                <h3>Add new Stream</h3>
+                <AddStream handleSubmit={this.handleSubmit} handleChange={this.handleChange} stream={this.state.newStream}/>
                 {this.state.message}
             </div>
         )

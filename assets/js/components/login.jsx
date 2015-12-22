@@ -6,13 +6,16 @@ var Submit = require('./submit.jsx')
 var Auth = require('../utils/auth.jsx')
 
 var Login = React.createClass({
-    getInitialState: function(){
+    contextTypes: {
+        router: React.PropTypes.func
+    },
+    getInitialState(){
         return this.state = {
             user: {},
             message: ""
         }
     },
-    handleSubmit: function(event){
+    handleSubmit(event){
         event.preventDefault()
         var self = this
         // get new user and modify for json
@@ -29,15 +32,18 @@ var Login = React.createClass({
             if(response.status == 401) {
                 return self.setState({message: 'Please provide correct credentials'})
             }
+            
+            // Not sure how to improve this.
+            self.context.router.transitionTo('/u')
             self.setState({message: ''})
         })
     },
-    handleChange: function(event){
+    handleChange(event){
         let newState = this.state
         newState.user[event.target.name] = event.target.value
         this.setState(newState)
     },
-    render: function(){
+    render(){
         return (
             <Form method={this.props.method} action={this.props.action} onSubmit={this.handleSubmit} className={this.props.className}>
                 <Input type="text" name="email" placeholder="Email" className="input input-text" onChange={this.handleChange}/>

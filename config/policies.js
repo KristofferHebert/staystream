@@ -19,6 +19,7 @@
 
 module.exports.policies = {
 
+
   /***************************************************************************
   *                                                                          *
   * Default policy for all controllers and actions (`true` allows public     *
@@ -54,7 +55,10 @@ module.exports.policies = {
     // AuthController: {
     //     '*': true
     // },
-    // UserController: ['isAdmin']
+    // UserController: ['isAdmin'],
+     IdeaController: {
+         'create': ['setOwner']
+     }
 
 
 };

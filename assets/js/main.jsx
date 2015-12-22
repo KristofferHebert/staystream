@@ -13,11 +13,11 @@ import StreamHomepage from './pages/streamhomepage.jsx'
 import StreamPage from './pages/stream.jsx'
 import LoginPage from './pages/login.jsx'
 import LogoutPage from './pages/logout.jsx'
-
+import UserHomepage from './pages/userhomepage.jsx'
 import IdeaPage from './pages/idea.jsx'
 
 
-var UserHomepage = React.createClass({
+var Wrapper = React.createClass({
     render: function(){
         return (
             <div>
@@ -27,10 +27,15 @@ var UserHomepage = React.createClass({
                 </ul>
                 {(Auth.isLoggedIn() ? 'is logged in': 'is not logged in')}
                 {this.props.children}
+                <footer>
+                    2015 Staystream.com
+                </footer>
             </div>
         )
     }
 })
+
+
 
 
 var Idea = React.createClass({
@@ -67,20 +72,21 @@ var NotFoundPage = React.createClass({
 
 var routes = (
     <Route path="/" component={App}>
-          <IndexRoute component={HomePage} />
-          <Route path="u" component={UserHomepage}>
-            <Route path="stream">
-                    <IndexRoute component={StreamHomepage}/>
-                    <Route path=":id" component={StreamPage}/>
-            </Route>
-            <Route path="idea">
-                    <Route path=":id" component={IdeaPage}/>
-            </Route>
-          </Route>
-          <Route path="logout" component={LogoutPage}></Route>
-          <Route path="login" component={LoginPage}></Route>
-          <Route path="*" component={NotFoundPage} />
+      <IndexRoute component={HomePage} />
+      <Route path="u" component={Wrapper}>
+          <IndexRoute component={UserHomepage}/>
+        <Route path="stream">
+                <IndexRoute component={StreamHomepage}/>
+                <Route path=":id" component={StreamPage}/>
+        </Route>
+        <Route path="idea">
+                <Route path=":id" component={IdeaPage}/>
+        </Route>
       </Route>
+      <Route path="logout" component={LogoutPage}></Route>
+      <Route path="login" component={LoginPage}></Route>
+      <Route path="*" component={NotFoundPage} />
+    </Route>
 )
 
 

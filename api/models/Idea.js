@@ -24,6 +24,9 @@ module.exports = {
             collection: 'tag',
             via: 'ideas',
             dominant: true
-        }
+        },
+		owner: {
+			type: 'string'
+		}
 	}
 };
