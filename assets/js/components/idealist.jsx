@@ -11,7 +11,6 @@ var IdeaList = React.createClass({
         }
     },
     render(){
-
         var ideaslist = this.props.ideas.map((idea, i) => {
         var ideaLink = "/u/idea/" + idea.id
 

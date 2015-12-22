@@ -1,0 +1,19 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    font-family: Arial, sans-serif;
+}
+
+.wrapper {
+    max-width: 1024px;
+    min-width: 320px;
+    margin: auto;
+}
+
+input {
+    border: 1px solid gray;
+    padding: .8em;
+    clear: both;
+    width: 100%;
+}
