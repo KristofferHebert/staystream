@@ -66,7 +66,7 @@ var StreamPage = React.createClass({
 
     },
     saveData(idea){
-        var token = Auth.getUser()
+        var token = Auth.getToken()
         var self = this
         var settings = {
             method: 'post',
@@ -103,7 +103,7 @@ var StreamPage = React.createClass({
                             'stream': {
                                 ideas: updatedStreams
                             },
-                            'ideasLength': self.ideasLength + 1
+                            'ideasLength': self.state.ideasLength + 1
                         })
 
                     } else {

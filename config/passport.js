@@ -20,7 +20,7 @@ var LOCAL_STRATEGY_CONFIG = {
 	passReqToCallback: false
 }
 
-// Configure local Strategy for Passport
+// Configure JWT Strategy for Passport
 var JWT_STRATEGY_CONFIG = {
 	secretOrKey: SECRET,
 	issuer: ISSUER,
@@ -64,7 +64,7 @@ passport.use(new LocalStrategy(LOCAL_STRATEGY_CONFIG, handleLocalStrategy))
 passport.use(new JwtStrategy(JWT_STRATEGY_CONFIG, handleJwtStrategyAuth))
 
 module.exports.jwtSettings = {
-	expiresInMinutes: EXPIRATION,
+	expiresIn: EXPIRATION,
 	secret: SECRET,
 	algorithm: 'HS256',
 	issuer: ISSUER,

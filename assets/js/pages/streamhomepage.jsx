@@ -64,6 +64,7 @@ var StreamHomepage = React.createClass({
 
     },
     saveData(stream){
+        console.log('called')
         var token = Auth.getUser()
         var self = this
         var settings = {
@@ -71,7 +72,7 @@ var StreamHomepage = React.createClass({
             headers: {
                'Accept': 'application/json',
                'Content-Type': 'application/json',
-               'Authorization' : 'Bearer: ' + token
+               'Authorization' : 'Bearer: ' + Auth.getToken() 
             },
             body: JSON.stringify(stream)
         }

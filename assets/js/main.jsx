@@ -4,7 +4,7 @@
 import { Router, Route, IndexRoute, Link, IndexLink } from 'react-router'
 import { createHistory, useBasename } from 'history'
 
-var history = createHistory()
+var History = createHistory()
 
 import requireAuth from './utils/auth.jsx'
 import Auth from './utils/auth.jsx'
@@ -24,6 +24,7 @@ var Wrapper = React.createClass({
                 <h1><Link to="/u/">Staystream</Link></h1>
                 <ul>
                   <li><Link to="/u/stream">Your Streams</Link></li>
+                  <li><Link to="/logout">Logout</Link></li>
                 </ul>
                 {(Auth.isLoggedIn() ? 'is logged in': 'is not logged in')}
                 {this.props.children}
@@ -70,7 +71,7 @@ var NotFoundPage = React.createClass({
 // Todo fix history={history}
 // Todo onEnter={requireAuth}
 
-var routes = (
+var Routes = (
     <Route path="/" component={App}>
       <IndexRoute component={HomePage} />
       <Route path="u" component={Wrapper}>
@@ -112,4 +113,4 @@ var App = React.createClass({
 
 
 
-ReactDOM.render(<Router routes={routes} />, document.getElementById('app'))
+ReactDOM.render(<Router routes={Routes} history={History} />, document.getElementById('app'))

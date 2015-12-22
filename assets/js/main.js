@@ -482,7 +482,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // import React from 'react'
 // import ReactDOM from 'react-dom'
 
-var history = (0, _history.createHistory)();
+var History = (0, _history.createHistory)();
 
 var Wrapper = React.createClass({
     render: function render() {
@@ -508,6 +508,15 @@ var Wrapper = React.createClass({
                         _reactRouter.Link,
                         { to: '/u/stream' },
                         'Your Streams'
+                    )
+                ),
+                React.createElement(
+                    'li',
+                    null,
+                    React.createElement(
+                        _reactRouter.Link,
+                        { to: '/logout' },
+                        'Logout'
                     )
                 )
             ),
@@ -563,7 +572,7 @@ var NotFoundPage = React.createClass({
 // Todo fix history={history}
 // Todo onEnter={requireAuth}
 
-var routes = React.createElement(
+var Routes = React.createElement(
     _reactRouter.Route,
     { path: '/', component: App },
     React.createElement(_reactRouter.IndexRoute, { component: _homepage2.default }),
@@ -630,7 +639,7 @@ var App = React.createClass({
     }
 });
 
-ReactDOM.render(React.createElement(_reactRouter.Router, { routes: routes }), document.getElementById('app'));
+ReactDOM.render(React.createElement(_reactRouter.Router, { routes: Routes, history: History }), document.getElementById('app'));
 
 },{"./pages/homepage.jsx":13,"./pages/idea.jsx":14,"./pages/login.jsx":15,"./pages/logout.jsx":16,"./pages/stream.jsx":17,"./pages/streamhomepage.jsx":18,"./pages/userhomepage.jsx":19,"./utils/auth.jsx":20,"history":36,"react-router":68}],13:[function(require,module,exports){
 'use strict';
@@ -1009,7 +1018,7 @@ var StreamPage = React.createClass({
         this.saveData(this.state.newIdea);
     },
     saveData: function saveData(idea) {
-        var token = _auth2.default.getUser();
+        var token = _auth2.default.getToken();
         var self = this;
         var settings = {
             method: 'post',
@@ -1044,7 +1053,7 @@ var StreamPage = React.createClass({
                         'stream': {
                             ideas: updatedStreams
                         },
-                        'ideasLength': self.ideasLength + 1
+                        'ideasLength': self.state.ideasLength + 1
                     });
                 } else {
                     console.log('Save failed', data);
@@ -1150,6 +1159,7 @@ var StreamHomepage = React.createClass({
         this.saveData(this.state.newStream);
     },
     saveData: function saveData(stream) {
+        console.log('called');
         var token = _auth2.default.getUser();
         var self = this;
         var settings = {
@@ -1157,7 +1167,7 @@ var StreamHomepage = React.createClass({
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer: ' + token
+                'Authorization': 'Bearer: ' + _auth2.default.getToken()
             },
             body: JSON.stringify(stream)
         };
