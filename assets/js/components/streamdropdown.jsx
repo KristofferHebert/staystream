@@ -12,19 +12,18 @@ var StreamDropdown = React.createClass({
         }
     },
     render(){
-        var options = this.props.ideas.map((stream, i) => {
-
+        var options = this.props.streams.map((stream, i) => {
             return (
                 <option key={i} value={stream.id}>{stream.name} </option>
             )
         })
 
         return (
-            <select>
+            <select onChange={this.props.handleStreamChange}>
                 {options}
             </select>
         )
-
+    }
 })
 
 export default StreamDropdown

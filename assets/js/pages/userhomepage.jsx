@@ -1,4 +1,5 @@
 import AddIdea from '../components/addidea.jsx'
+import Auth from '../utils/auth.jsx'
 
 var UserHomepage = React.createClass({
     getInitialState(){
@@ -7,10 +8,26 @@ var UserHomepage = React.createClass({
                 "tags": [],
                 "stream": {},
                 "name": "",
-                "content": "",
-                "id": ""
-            }
+                "content": ""
+            },
+            streams: [],
+            currentStream: "",
+            message: ""
         }
+    },
+    componentDidMount(){
+        var userID = Auth.getId()
+        this.getStreams(userID)
+    },
+    handleStreamChange(event){
+
+        // Set current Stream
+        let newState = this.state
+        newState.currentStream = event.target.value
+
+        console.log(newState)
+
+        this.setState(newState)
     },
     handleChange(event){
 
@@ -22,14 +39,18 @@ var UserHomepage = React.createClass({
     handleSubmit(event){
         event.preventDefault()
         var newIdea = this.state.newIdea
-        newIdea.stream = this.props.params.id
-
+        if(newIdea.name === "" || newIdea.content === "") {
+            this.setState({message: 'Please fill out all fields'})
+            return false
+        }
+        newIdea.stream = this.state.currentStream
+        console.log(newIdea)
         this.setState({newIdea: newIdea})
         this.saveData(this.state.newIdea)
 
     },
     saveData(idea){
-        var token = Auth.getUser()
+        var token = Auth.getToken()
         var self = this
         var settings = {
             method: 'post',
@@ -54,24 +75,47 @@ var UserHomepage = React.createClass({
                 }
             })
             .then(function(response){
-                if(response.data.id){
-                    var updatedStreams = self.state.stream.ideas.concat([response.data])
+                if(response){
                     self.setState({
                             newIdea: {
                             "tags": [],
                             "stream": {},
                             "name": "",
-                            "content": "",
-                            },
-                            'stream': {
-                                ideas: updatedStreams
-                            },
-                            'ideasLength': self.ideasLength + 1
+                            "content": ""
+                            }
                         })
 
                     } else {
-                        console.log('Save failed', data)
+                        console.log('Save failed')
                     }
+            })
+        }
+    },
+    getStreams(userID){
+        var token = Auth.getToken()
+        var self = this
+        var settings = {
+            method: 'get',
+            headers: {
+               'Accept': 'application/json',
+               'Content-Type': 'application/json',
+               'Authorization' : 'Bearer: ' + token
+            }
+        }
+
+        if(token && userID){
+            fetch('/api/v1/stream?owner=' + userID, settings)
+            .then(function(response){
+                if(response.status === 200){
+                    return response.json()
+                }
+            })
+            .then(function(streams){
+                if(streams){
+                    self.setState({streams: streams, currentStream: streams[0].id})
+                } else {
+                    console.log('Save failed', data)
+                }
             })
         }
     },
@@ -79,7 +123,8 @@ var UserHomepage = React.createClass({
         return (
             <div>
                 <h2>Add new Idea</h2>
-                <AddIdea handleSubmit={this.handleSubmit} handleChange={this.handleChange} idea={this.state.newIdea}/>
+                <AddIdea handleSubmit={this.handleSubmit} handleChange={this.handleChange} idea={this.state.newIdea} streams={this.state.streams} handleStreamChange={this.handleStreamChange}/>
+                {this.state.message}
                 <hr />
             </div>
         )
