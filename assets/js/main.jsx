@@ -14,7 +14,6 @@ import UserHomepage from './pages/userhomepage.jsx'
 import SearchPage from './pages/search.jsx'
 import IdeaPage from './pages/idea.jsx'
 
-
 var Wrapper = React.createClass({
     render: function(){
         return (
@@ -74,7 +73,6 @@ var Routes = (
     </Route>
 )
 
-
 var App = React.createClass({
     getInitialState: function(){
         return {
@@ -94,7 +92,5 @@ var App = React.createClass({
         )
     }
 })
-
-
 
 ReactDOM.render(<Router routes={Routes} />, document.getElementById('app'))
