@@ -1,6 +1,3 @@
-// import React from 'react'
-// import ReactDOM from 'react-dom'
-
 import { Router, Route, IndexRoute, Link, IndexLink } from 'react-router'
 import { createHistory, useBasename } from 'history'
 
@@ -42,29 +39,7 @@ var Wrapper = React.createClass({
             </div>
         )
     }
-})
-
-
-
-
-var Idea = React.createClass({
-    getInitialState(){
-        return {
-            id: 'undefined'
-        }
-    },
-    componentDidMount() {
-        const id = this.props.params.id
-        this.setState({id: id})
-    },
-    render(){
-        return (
-            <div>
-                <h2>Idea {this.state.id}</h2>
-            </div>
-        )
-    }
-})
+})   
 
 var NotFoundPage = React.createClass({
     render: function(){
