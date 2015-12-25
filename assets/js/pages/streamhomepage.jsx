@@ -72,7 +72,7 @@ var StreamHomepage = React.createClass({
             headers: {
                'Accept': 'application/json',
                'Content-Type': 'application/json',
-               'Authorization' : 'Bearer: ' + Auth.getToken() 
+               'Authorization' : 'Bearer: ' + Auth.getToken()
             },
             body: JSON.stringify(stream)
         }

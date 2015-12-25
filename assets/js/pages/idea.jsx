@@ -1,64 +1,6 @@
 import Auth from '../utils/auth.jsx'
 import EditIdea from '../components/editidea.jsx'
-
-var DeleteResource = React.createClass({
-    getInitialState(){
-        return {
-            message: ""
-        }
-    },
-    handleDelete(){
-        var resourceId = this.props.resourceId
-
-        var token = Auth.getUser()
-        var self = this
-        var settings = {
-            method: 'delete',
-             headers: {
-               'Accept': 'application/json',
-               'Content-Type': 'application/json',
-               'Authorization' : 'Bearer: ' + token
-            }
-        }
-
-        if(resourceId){
-            fetch(this.props.endpoint + resourceId, settings)
-            .then(function(response){
-                if(response.status === 200){
-                    self.setState({message: 'Idea Deleted!'})
-                    return response.json()
-                } else {
-                    self.setState({message: 'Delete Failed'})
-                    return response
-                }
-            })
-            .then(function(data){
-                if(data.id){
-                    return self.setState({'idea': data, streamId: data.stream.id})
-                }
-                return console.log('Save failed', data)
-            })
-        }
-    },
-    render(){
-        return (
-            <div>
-                <a onClick={this.handleDelete} className={this.props.className}> Delete </a>
-                {this.state.message}
-            </div>
-        )
-    }
-})
-
-var Del = React.createClass({
-    render(){
-        return (
-            <div>
-                <p>"hey"</p>
-            </div>
-        )
-    }
-})
+import DeleteResource from '../components/deleteresource.jsx'
 
 var IdeaHomepage = React.createClass({
     getInitialState(){
@@ -70,9 +12,48 @@ var IdeaHomepage = React.createClass({
                 "content": "",
                 "id": ""
             },
+            currentStream: "",
             streamId: "",
             message: ""
         }
+    },
+    getStreams(userID){
+        var token = Auth.getToken()
+        var self = this
+        var settings = {
+            method: 'get',
+            headers: {
+               'Accept': 'application/json',
+               'Content-Type': 'application/json',
+               'Authorization' : 'Bearer: ' + token
+            }
+        }
+
+        if(token && userID){
+            fetch('/api/v1/stream?owner=' + userID, settings)
+            .then(function(response){
+                if(response.status === 200){
+                    return response.json()
+                }
+            })
+            .then(function(streams){
+                if(streams){
+                    self.setState({streams: streams, currentStream: streams[0].id})
+                } else {
+                    console.log('Save failed', data)
+                }
+            })
+        }
+    },
+    handleStreamChange(event){
+
+        // Set current Stream
+        let newState = this.state
+        newState.currentStream = event.target.value
+
+        console.log(newState)
+
+        this.setState(newState)
     },
     fetchData(ideaId){
         var token = Auth.getUser()
@@ -102,6 +83,9 @@ var IdeaHomepage = React.createClass({
 
         // Get data to populate Idea
         var ideaId = this.props.params.id
+        var userID = Auth.getId()
+
+        this.getStreams(userID)
         this.fetchData(ideaId)
     },
     handleChange(event){
@@ -156,7 +140,7 @@ var IdeaHomepage = React.createClass({
         return (
             <div>
                 <h2>Edit Idea</h2>
-                <EditIdea idea={this.state.idea} streamId={this.state.streamId} handleChange={this.handleChange} handleSubmit={this.handleSubmit} />
+                <EditIdea idea={this.state.idea} streamId={this.state.streamId} handleChange={this.handleChange} streams= {this.state.streams} currentStream={this.state.currentStream} handleSubmit={this.handleSubmit} />
                 <DeleteResource resourceId={this.state.idea.id} endpoint="/api/v1/idea/" />
                 {this.state.message}
             </div>

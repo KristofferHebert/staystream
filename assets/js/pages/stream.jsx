@@ -16,8 +16,17 @@ var StreamPage = React.createClass({
                 "name": "",
                 "content": "",
             },
-            streamId: ""
+            streamId: "",
+            currentStream: "",
+            streams: []
         }
+    },
+    handleStreamChange(event){
+
+        // Set current Stream
+        let newState = this.state
+        newState.currentStream = event.target.value
+        this.setState(newState)
     },
     fetchData(streamId){
         var token = Auth.getToken()
@@ -48,6 +57,8 @@ var StreamPage = React.createClass({
     componentDidMount(){
         var streamId = this.props.params.id
         if(streamId) this.fetchData(streamId)
+        var userID = Auth.getId()
+        this.getStreams(userID)
     },
     handleChange(event){
 
@@ -64,6 +75,34 @@ var StreamPage = React.createClass({
         this.setState({newIdea: newIdea})
         this.saveData(this.state.newIdea)
 
+    },
+    getStreams(userID){
+        var token = Auth.getToken()
+        var self = this
+        var settings = {
+            method: 'get',
+            headers: {
+               'Accept': 'application/json',
+               'Content-Type': 'application/json',
+               'Authorization' : 'Bearer: ' + token
+            }
+        }
+
+        if(token && userID){
+            fetch('/api/v1/stream?owner=' + userID, settings)
+            .then(function(response){
+                if(response.status === 200){
+                    return response.json()
+                }
+            })
+            .then(function(streams){
+                if(streams){
+                    self.setState({streams: streams, currentStream: streams[0].id})
+                } else {
+                    console.log('Save failed', data)
+                }
+            })
+        }
     },
     saveData(idea){
         var token = Auth.getToken()
@@ -115,11 +154,11 @@ var StreamPage = React.createClass({
     render(){
         return (
             <div>
-                <StreamDetails stream={this.state.stream} ideasLength={this.state.ideasLength} />
-                <hr />
                 <h3>Add new Idea</h3>
-                <AddIdea handleSubmit={this.handleSubmit} handleChange={this.handleChange} idea={this.state.newIdea}/>
+                <AddIdea handleSubmit={this.handleSubmit} handleChange={this.handleChange} idea={this.state.newIdea} handleStreamChange={this.handleStreamChange} streams={this.state.streams}/>
                 {this.state.message}
+                <hr />
+                <StreamDetails stream={this.state.stream} ideasLength={this.state.ideasLength} />
             </div>
         )
     }
