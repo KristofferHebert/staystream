@@ -75,7 +75,7 @@ var IdeaHomepage = React.createClass({
                 }
             })
             .then(function(data){
-                self.setState({'idea': data, streamId: data.stream.id})
+                self.setState({'idea': data, streamId: data.stream.id, currentStream: data.stream.name})
             })
         }
     },
@@ -141,7 +141,7 @@ var IdeaHomepage = React.createClass({
             <div>
                 <h2>Edit Idea</h2>
                 <EditIdea idea={this.state.idea} streamId={this.state.streamId} handleChange={this.handleChange} streams= {this.state.streams} currentStream={this.state.currentStream} handleSubmit={this.handleSubmit} />
-                <DeleteResource resourceId={this.state.idea.id} endpoint="/api/v1/idea/" />
+                <DeleteResource resourceId={this.state.idea.id} endpoint="/api/v1/idea/" className="btn"/>
                 {this.state.message}
             </div>
         )

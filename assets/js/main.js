@@ -18,10 +18,14 @@ var StreamDropdown = React.createClass({
         };
     },
     render: function render() {
+        var _this = this;
+
+        console.log(this.props.currentStream);
+
         var options = this.props.streams.map(function (stream, i) {
             return React.createElement(
                 'option',
-                { key: i, value: stream.id },
+                { key: i, value: stream.id, selected: _this.props.currentStream == stream.name },
                 stream.name,
                 ' '
             );
@@ -77,7 +81,8 @@ var AddIdea = React.createClass({
             streams: [{
                 name: '',
                 id: ''
-            }]
+            }],
+            currentStream: ""
         };
     },
     render: function render() {
@@ -89,7 +94,7 @@ var AddIdea = React.createClass({
                 { onSubmit: this.props.handleSubmit, className: this.props.className },
                 React.createElement(_input2.default, { type: 'text', name: 'name', placeholder: 'Idea Name', className: 'input input-email', value: this.props.idea.name, onChange: this.props.handleChange }),
                 React.createElement(_input2.default, { type: 'text', name: 'content', placeholder: 'Content', className: 'input input-content', value: this.props.idea.content, onChange: this.props.handleChange }),
-                React.createElement(_StreamDropdown2.default, { streams: this.props.streams, currentStream: this.props.currentStream, handleStreamChange: this.props.handleStreamChange }),
+                React.createElement(_StreamDropdown2.default, { streams: this.props.streams, currentStream: this.props.currentStream, handleStreamChange: this.props.handleStreamChange, currentStream: this.props.currentStream }),
                 React.createElement(_submit2.default, { value: 'Save', className: 'input input-submit' })
             )
         );
@@ -538,6 +543,8 @@ var StreamDropdown = React.createClass({
     render: function render() {
         var _this = this;
 
+        console.log(this.props.currentStream);
+
         var options = this.props.streams.map(function (stream, i) {
             return React.createElement(
                 'option',
@@ -952,7 +959,7 @@ var IdeaHomepage = React.createClass({
                     return response.json();
                 }
             }).then(function (data) {
-                self.setState({ 'idea': data, streamId: data.stream.id });
+                self.setState({ 'idea': data, streamId: data.stream.id, currentStream: data.stream.name });
             });
         }
     },
@@ -1020,7 +1027,7 @@ var IdeaHomepage = React.createClass({
                 'Edit Idea'
             ),
             React.createElement(_editidea2.default, { idea: this.state.idea, streamId: this.state.streamId, handleChange: this.handleChange, streams: this.state.streams, currentStream: this.state.currentStream, handleSubmit: this.handleSubmit }),
-            React.createElement(_deleteresource2.default, { resourceId: this.state.idea.id, endpoint: '/api/v1/idea/' }),
+            React.createElement(_deleteresource2.default, { resourceId: this.state.idea.id, endpoint: '/api/v1/idea/', className: 'btn' }),
             this.state.message
         );
     }
@@ -1228,7 +1235,8 @@ var StreamPage = React.createClass({
                     return response.json();
                 }
             }).then(function (data) {
-                self.setState({ 'stream': data, 'ideasLength': data.ideas.length });
+                console.log(data);
+                self.setState({ 'stream': data, 'ideasLength': data.ideas.length, 'currentStream': data.name });
             });
         }
     },
@@ -1332,7 +1340,7 @@ var StreamPage = React.createClass({
                 null,
                 'Add new Idea'
             ),
-            React.createElement(_addidea2.default, { handleSubmit: this.handleSubmit, handleChange: this.handleChange, idea: this.state.newIdea, handleStreamChange: this.handleStreamChange, streams: this.state.streams }),
+            React.createElement(_addidea2.default, { handleSubmit: this.handleSubmit, handleChange: this.handleChange, idea: this.state.newIdea, handleStreamChange: this.handleStreamChange, streams: this.state.streams, currentStream: this.state.currentStream }),
             this.state.message,
             React.createElement('hr', null),
             React.createElement(_streamdetails2.default, { stream: this.state.stream, ideasLength: this.state.ideasLength })

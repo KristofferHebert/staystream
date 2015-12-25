@@ -18,7 +18,8 @@ var AddIdea = React.createClass({
             streams: [{
                 name: '',
                 id: ''
-            }]
+            }],
+            currentStream: ""
         }
     },
     render(){
@@ -27,7 +28,7 @@ var AddIdea = React.createClass({
                 <Form onSubmit={this.props.handleSubmit} className={this.props.className}>
                     <Input type="text" name="name" placeholder="Idea Name" className="input input-email" value={this.props.idea.name} onChange={this.props.handleChange} />
                     <Input type="text" name="content" placeholder="Content" className="input input-content" value={this.props.idea.content} onChange={this.props.handleChange} />
-                    <StreamDropdown streams={this.props.streams} currentStream={this.props.currentStream} handleStreamChange={this.props.handleStreamChange} />
+                    <StreamDropdown streams={this.props.streams} currentStream={this.props.currentStream} handleStreamChange={this.props.handleStreamChange} currentStream={this.props.currentStream}/>
                     <Submit value="Save" className="input input-submit"/>
                 </Form>
             </div>

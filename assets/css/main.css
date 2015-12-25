@@ -11,9 +11,20 @@ body {
     margin: auto;
 }
 
-input {
+input, select, .btn {
     border: 1px solid gray;
     padding: .8em;
     clear: both;
     width: 100%;
+    display: block;
+    font-size: 1em;
+    margin-bottom: .4em;
+}
+
+select {
+    height: 3em;
+}
+
+.btn {
+    text-align: center;
 }

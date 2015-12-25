@@ -50,7 +50,8 @@ var StreamPage = React.createClass({
                 }
             })
             .then(function(data){
-                self.setState({'stream': data, 'ideasLength': data.ideas.length})
+                console.log(data)
+                self.setState({'stream': data, 'ideasLength': data.ideas.length, 'currentStream': data.name})
             })
         }
     },
@@ -155,7 +156,7 @@ var StreamPage = React.createClass({
         return (
             <div>
                 <h3>Add new Idea</h3>
-                <AddIdea handleSubmit={this.handleSubmit} handleChange={this.handleChange} idea={this.state.newIdea} handleStreamChange={this.handleStreamChange} streams={this.state.streams}/>
+                <AddIdea handleSubmit={this.handleSubmit} handleChange={this.handleChange} idea={this.state.newIdea} handleStreamChange={this.handleStreamChange} streams={this.state.streams} currentStream={this.state.currentStream}/>
                 {this.state.message}
                 <hr />
                 <StreamDetails stream={this.state.stream} ideasLength={this.state.ideasLength} />
