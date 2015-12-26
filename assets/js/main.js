@@ -895,12 +895,11 @@ var IdeaHomepage = React.createClass({
         return {
             idea: {
                 "tags": [],
-                "stream": {},
+                "stream": "",
                 "name": "",
                 "content": "",
                 "id": ""
             },
-            currentStream: "",
             streamId: "",
             message: ""
         };
@@ -924,7 +923,7 @@ var IdeaHomepage = React.createClass({
                 }
             }).then(function (streams) {
                 if (streams) {
-                    self.setState({ streams: streams, currentStream: streams[0].id });
+                    self.setState({ streams: streams });
                 } else {
                     console.log('Save failed', data);
                 }
@@ -935,10 +934,10 @@ var IdeaHomepage = React.createClass({
 
         // Set current Stream
         var newState = this.state;
-        newState.currentStream = event.target.value;
+        newState.stream = event.target.value;
 
-        console.log(newState);
-
+        console.log('stream changed', newState);
+        console.log(this.state);
         this.setState(newState);
     },
     fetchData: function fetchData(ideaId) {
@@ -1026,7 +1025,7 @@ var IdeaHomepage = React.createClass({
                 null,
                 'Edit Idea'
             ),
-            React.createElement(_editidea2.default, { idea: this.state.idea, streamId: this.state.streamId, handleChange: this.handleChange, streams: this.state.streams, currentStream: this.state.currentStream, handleSubmit: this.handleSubmit }),
+            React.createElement(_editidea2.default, { idea: this.state.idea, streamId: this.state.streamId, handleChange: this.handleChange, streams: this.state.streams, currentStream: this.state.currentStream, handleStreamChange: this.handleStreamChange, handleSubmit: this.handleSubmit }),
             React.createElement(_deleteresource2.default, { resourceId: this.state.idea.id, endpoint: '/api/v1/idea/', className: 'btn' }),
             this.state.message
         );
@@ -1235,7 +1234,7 @@ var StreamPage = React.createClass({
                     return response.json();
                 }
             }).then(function (data) {
-                console.log(data);
+                console.log('currentStream', data);
                 self.setState({ 'stream': data, 'ideasLength': data.ideas.length, 'currentStream': data.name });
             });
         }

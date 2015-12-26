@@ -50,7 +50,7 @@ var StreamPage = React.createClass({
                 }
             })
             .then(function(data){
-                console.log(data)
+                console.log('currentStream',data)
                 self.setState({'stream': data, 'ideasLength': data.ideas.length, 'currentStream': data.name})
             })
         }
