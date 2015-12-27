@@ -1,11 +1,16 @@
 var ContentEditable = React.createClass({
     render: function(){
-        return <div
-            className={this.props.className}
-            onInput={this.emitChange}
-            onBlur={this.emitChange}
-            contentEditable
-            dangerouslySetInnerHTML={{__html: this.props.html}}></div>
+        return (
+            <div>
+                <label>Content</label>
+                <div
+                    className={this.props.className}
+                    onInput={this.emitChange}
+                    onBlur={this.emitChange}
+                    contentEditable
+                    dangerouslySetInnerHTML={{__html: this.props.html}}></div>
+            </div>
+        )
     },
     shouldComponentUpdate: function(nextProps){
         return nextProps.html !== this.getDOMNode().innerHTML
@@ -75,7 +80,7 @@ var AddIdeaForm = React.createClass({
                     <input type="text" name="name" onChange={this.handleChange} placeholder="Name"/>
                     <label htmlFor="content" hidden>Content</label>
                      <ContentEditable onChange={this.handleContentChange} name="content"
-                    placeholder="Add idea here" minLength={this.props.minimum} className="idea-form-textarea" />
+                     minLength={this.props.minimum} className="idea-form-textarea" />
                     <input type="button" value="Add Idea" onClick={this.handleSubmission}/>
                 </form>
 

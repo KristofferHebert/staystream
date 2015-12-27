@@ -1,9 +1,19 @@
 // Fetch dependencies
 import Signup from '../components/signup.jsx'
 import Login from '../components/login.jsx'
-import {Link} from 'react-router'
+import { browserHistory, Router, Route, Link } from 'react-router'
+
 var HomePage = React.createClass({
-    render: function(){
+    contextTypes: {
+      router: React.PropTypes.object.isRequired
+    },
+    componentDidMount() {
+    },
+    handleClick(event){
+        event.preventDefault()
+        console.log(this.context, this.props.router)
+    },
+    render(){
         return (
             <div>
                 <h2>Addictive Idea journal</h2>
@@ -12,7 +22,6 @@ var HomePage = React.createClass({
                 <Signup />
                 <h3>Login</h3>
                 <Link to={'/login'}>Click here to login</Link>
-
             </div>
         )
     }

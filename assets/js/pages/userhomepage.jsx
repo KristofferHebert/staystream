@@ -119,11 +119,44 @@ var UserHomepage = React.createClass({
             })
         }
     },
+    getTags: function(string){
+        var tags = string.match(/#[\w]+(?=\s|$)/g)
+        if(tags === null) {
+            return []
+        }
+        tags.map(function(val){ return val.substring(1)})
+        tags = tags.filter(function(item, pos, self) {
+            return self.indexOf(item) == pos
+        })
+        return tags
+    },
+    addHashtags: function(string){
+        var updatedString = string.replace(/(^|\W)(#[a-z\d][\w-]*)/ig, '$1<span>$2</span>') || ""
+
+        return updatedString
+    },
+    handleContentChange: function(event){
+        var newTags = this.getTags(event.target.value)
+        var newContent = this.addHashtags(event.target.value)
+
+        var newIdea = this.state.newIdea
+        // For version 2 adding tags
+        // newIdea.tags = newTags
+
+        newIdea.content = newContent
+        console.log(newIdea)
+        this.setState({newIdea: newIdea})
+    },
     render: function(){
         return (
             <div>
                 <h2>Add new Idea</h2>
-                <AddIdea handleSubmit={this.handleSubmit} handleChange={this.handleChange} idea={this.state.newIdea} streams={this.state.streams} handleStreamChange={this.handleStreamChange}/>
+                <AddIdea handleSubmit={this.handleSubmit}
+                    handleChange={this.handleChange}
+                    idea={this.state.newIdea}
+                    streams={this.state.streams}
+                    handleStreamChange={this.handleStreamChange}
+                    handleContentChange={this.handleContentChange}/>
                 {this.state.message}
                 <hr />
             </div>

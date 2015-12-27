@@ -11,14 +11,18 @@ body {
     margin: auto;
 }
 
-input, select, .btn {
+input, select, .btn, .input-content {
     border: 1px solid gray;
     padding: .8em;
     clear: both;
     width: 100%;
     display: block;
     font-size: 1em;
-    margin-bottom: .4em;
+    margin-bottom: .6em;
+}
+
+.input-content {
+    height: 12em;
 }
 
 select {
@@ -27,4 +31,13 @@ select {
 
 .btn {
     text-align: center;
+}
+
+.tc {
+    text-align: center;
+}
+
+[contenteditable=true]:empty:before{
+  content: attr(placeholder);
+  display: block;
 }

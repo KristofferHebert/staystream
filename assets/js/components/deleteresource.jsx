@@ -1,3 +1,5 @@
+import Auth from '../utils/auth.jsx'
+
 var DeleteResource = React.createClass({
     getInitialState(){
         return {
