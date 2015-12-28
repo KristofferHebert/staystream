@@ -18,6 +18,7 @@ var StreamPage = React.createClass({
             },
             streamId: "",
             currentStream: "",
+            currentStreamName: "",
             streams: []
         }
     },
@@ -51,7 +52,7 @@ var StreamPage = React.createClass({
             })
             .then(function(data){
                 console.log('currentStream',data)
-                self.setState({'stream': data, 'ideasLength': data.ideas.length, 'currentStream': data.name})
+                self.setState({'stream': data, 'ideasLength': data.ideas.length, 'currentStreamName': data.name})
             })
         }
     },
@@ -60,6 +61,33 @@ var StreamPage = React.createClass({
         if(streamId) this.fetchData(streamId)
         var userID = Auth.getId()
         this.getStreams(userID)
+    },
+    getTags(string){
+        var tags = string.match(/#[\w]+(?=\s|$)/g)
+        if(tags === null) {
+            return []
+        }
+        tags.map(function(val){ return val.substring(1)})
+        tags = tags.filter(function(item, pos, self) {
+            return self.indexOf(item) == pos
+        })
+        return tags
+    },
+    addHashtags(string){
+        var updatedString = string.replace(/(^|\W)(#[a-z\d][\w-]*)/ig, '$1<span>$2</span>') || ""
+        return updatedString
+    },
+    handleContentChange: function(event){
+        var newTags = this.getTags(event.target.value)
+        var newContent = this.addHashtags(event.target.value)
+
+        var newIdea = this.state.newIdea
+        // For version 2 adding tags
+        // newIdea.tags = newTags
+
+        newIdea.content = newContent
+        console.log(newIdea)
+        this.setState({idea: newIdea})
     },
     handleChange(event){
 
@@ -155,8 +183,15 @@ var StreamPage = React.createClass({
     render(){
         return (
             <div>
-                <h3>Add new Idea</h3>
-                <AddIdea handleSubmit={this.handleSubmit} handleChange={this.handleChange} idea={this.state.newIdea} handleStreamChange={this.handleStreamChange} streams={this.state.streams} currentStream={this.state.currentStream}/>
+                <h3>Add new idea to {this.state.stream.name}</h3>
+                <AddIdea handleSubmit={this.handleSubmit}
+                    handleChange={this.handleChange}
+                    idea={this.state.newIdea}
+                    handleStreamChange={this.handleStreamChange}
+                    streams={this.state.streams}
+                    currentStreamName={this.state.currentStreamName}
+                    handleContentChange={this.handleContentChange}
+                    />
                 {this.state.message}
                 <hr />
                 <StreamDetails stream={this.state.stream} ideasLength={this.state.ideasLength} />

@@ -1,16 +1,17 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _reactRouter = require('react-router');
+var _reactRouter = require("react-router");
 
 var StreamDropdown = React.createClass({
     getDefaultProps: function getDefaultProps() {
         return {
             currentStream: "",
+            currentStreamName: "",
             streams: [{
                 name: '',
                 id: ''
@@ -20,19 +21,19 @@ var StreamDropdown = React.createClass({
     render: function render() {
         var _this = this;
 
-        console.log(this.props.currentStream);
+        console.log("stream name", this.props.currentStreamName);
 
         var options = this.props.streams.map(function (stream, i) {
             return React.createElement(
-                'option',
-                { key: i, value: stream.id, selected: _this.props.currentStream == stream.name },
+                "option",
+                { key: i, value: stream.id, selected: _this.props.currentStreamName == stream.name },
                 stream.name,
-                ' '
+                " "
             );
         });
 
         return React.createElement(
-            'select',
+            "select",
             { onChange: this.props.handleStreamChange },
             options
         );
@@ -109,7 +110,8 @@ var AddIdea = React.createClass({
                 name: '',
                 id: ''
             }],
-            currentStream: ""
+            currentStream: "",
+            currentStreamName: ""
         };
     },
     render: function render() {
@@ -121,8 +123,14 @@ var AddIdea = React.createClass({
                 { onSubmit: this.props.handleSubmit, className: this.props.className },
                 React.createElement(_input2.default, { type: 'text', name: 'name', placeholder: 'Idea Name', className: 'input input-email', value: this.props.idea.name, onChange: this.props.handleChange }),
                 React.createElement(ContentEditable, { onChange: this.props.handleContentChange, name: 'content',
-                    placeholder: 'Idea Content', minLength: this.props.minimum, className: 'input input-content' }),
-                React.createElement(_StreamDropdown2.default, { streams: this.props.streams, currentStream: this.props.currentStream, handleStreamChange: this.props.handleStreamChange, currentStream: this.props.currentStream }),
+                    placeholder: 'Idea Content',
+                    minLength: this.props.minimum,
+                    html: this.props.idea.content,
+                    className: 'input input-content' }),
+                React.createElement(_StreamDropdown2.default, { streams: this.props.streams,
+                    currentStream: this.props.currentStream,
+                    currentStreamName: this.props.currentStreamName,
+                    handleStreamChange: this.props.handleStreamChange }),
                 React.createElement(_submit2.default, { value: 'Save', className: 'input input-submit' })
             )
         );
@@ -320,8 +328,13 @@ var EditIdea = React.createClass({
                 { onSubmit: this.props.handleSubmit, className: this.props.className },
                 React.createElement(_input2.default, { type: 'text', name: 'name', placeholder: 'Idea Name', className: 'input input-email', value: this.props.idea.name, onChange: this.props.handleChange }),
                 React.createElement(_contenteditable2.default, { onChange: this.props.handleContentChange, name: 'content',
-                    placeholder: 'Idea Content', minLength: this.props.minimum, className: 'input input-content', html: this.props.idea.content }),
-                React.createElement(_streamdropdown2.default, { streams: this.props.streams, currentStream: this.props.currentStream, handleStreamChange: this.props.handleStreamChange }),
+                    placeholder: 'Idea Content', minLength: this.props.minimum,
+                    className: 'input input-content',
+                    html: this.props.idea.content }),
+                React.createElement(_streamdropdown2.default, { streams: this.props.streams,
+                    currentStream: this.props.currentStream,
+                    currentStreamName: this.props.currentStreamName,
+                    handleStreamChange: this.props.handleStreamChange }),
                 React.createElement(_submit2.default, { value: 'Save', className: 'input input-submit' })
             )
         );
@@ -567,7 +580,6 @@ var StreamDetails = React.createClass({
     getDefaultProps: function getDefaultProps() {
         return {
             stream: {
-                ideasLength: 'hey',
                 name: '',
                 id: '',
                 ideas: []
@@ -596,18 +608,19 @@ var StreamDetails = React.createClass({
 exports.default = StreamDetails;
 
 },{"./idealist.jsx":8}],13:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _reactRouter = require('react-router');
+var _reactRouter = require("react-router");
 
 var StreamDropdown = React.createClass({
     getDefaultProps: function getDefaultProps() {
         return {
             currentStream: "",
+            currentStreamName: "",
             streams: [{
                 name: '',
                 id: ''
@@ -617,19 +630,19 @@ var StreamDropdown = React.createClass({
     render: function render() {
         var _this = this;
 
-        console.log(this.props.currentStream);
+        console.log("stream name", this.props.currentStreamName);
 
         var options = this.props.streams.map(function (stream, i) {
             return React.createElement(
-                'option',
-                { key: i, value: stream.id, selected: _this.props.currentStream == stream.name },
+                "option",
+                { key: i, value: stream.id, selected: _this.props.currentStreamName == stream.name },
                 stream.name,
-                ' '
+                " "
             );
         });
 
         return React.createElement(
-            'select',
+            "select",
             { onChange: this.props.handleStreamChange },
             options
         );
@@ -1031,10 +1044,7 @@ var IdeaHomepage = React.createClass({
 
         // Set current Stream
         var newState = this.state;
-        newState.stream = event.target.value;
-
-        console.log('stream changed', newState);
-        console.log(this.state);
+        newState.idea.stream = event.target.value;
         this.setState(newState);
     },
     fetchData: function fetchData(ideaId) {
@@ -1055,7 +1065,8 @@ var IdeaHomepage = React.createClass({
                     return response.json();
                 }
             }).then(function (data) {
-                self.setState({ 'idea': data, streamId: data.stream.id, currentStream: data.stream.name });
+                self.setState({ 'idea': data, streamId: data.stream.id, currentStreamName: data.stream.name });
+                console.log(self.state);
             });
         }
     },
@@ -1157,10 +1168,12 @@ var IdeaHomepage = React.createClass({
                 streamId: this.state.streamId,
                 handleChange: this.handleChange,
                 streams: this.state.streams,
+                currentStreamName: this.state.currentStreamName,
                 currentStream: this.state.currentStream,
                 handleStreamChange: this.handleStreamChange,
                 handleContentChange: this.handleContentChange,
-                handleSubmit: this.handleSubmit }),
+                handleSubmit: this.handleSubmit,
+                html: this.state.idea.content }),
             React.createElement(_deleteresource2.default, { resourceId: this.state.idea.id, endpoint: '/api/v1/idea/', className: 'btn' }),
             this.state.message
         );
@@ -1361,6 +1374,7 @@ var StreamPage = React.createClass({
             },
             streamId: "",
             currentStream: "",
+            currentStreamName: "",
             streams: []
         };
     },
@@ -1392,7 +1406,7 @@ var StreamPage = React.createClass({
                 }
             }).then(function (data) {
                 console.log('currentStream', data);
-                self.setState({ 'stream': data, 'ideasLength': data.ideas.length, 'currentStream': data.name });
+                self.setState({ 'stream': data, 'ideasLength': data.ideas.length, 'currentStreamName': data.name });
             });
         }
     },
@@ -1401,6 +1415,36 @@ var StreamPage = React.createClass({
         if (streamId) this.fetchData(streamId);
         var userID = _auth2.default.getId();
         this.getStreams(userID);
+    },
+    getTags: function getTags(string) {
+        var tags = string.match(/#[\w]+(?=\s|$)/g);
+        if (tags === null) {
+            return [];
+        }
+        tags.map(function (val) {
+            return val.substring(1);
+        });
+        tags = tags.filter(function (item, pos, self) {
+            return self.indexOf(item) == pos;
+        });
+        return tags;
+    },
+    addHashtags: function addHashtags(string) {
+        var updatedString = string.replace(/(^|\W)(#[a-z\d][\w-]*)/ig, '$1<span>$2</span>') || "";
+        return updatedString;
+    },
+
+    handleContentChange: function handleContentChange(event) {
+        var newTags = this.getTags(event.target.value);
+        var newContent = this.addHashtags(event.target.value);
+
+        var newIdea = this.state.newIdea;
+        // For version 2 adding tags
+        // newIdea.tags = newTags
+
+        newIdea.content = newContent;
+        console.log(newIdea);
+        this.setState({ idea: newIdea });
     },
     handleChange: function handleChange(event) {
 
@@ -1494,9 +1538,17 @@ var StreamPage = React.createClass({
             React.createElement(
                 'h3',
                 null,
-                'Add new Idea'
+                'Add new idea to ',
+                this.state.stream.name
             ),
-            React.createElement(_addidea2.default, { handleSubmit: this.handleSubmit, handleChange: this.handleChange, idea: this.state.newIdea, handleStreamChange: this.handleStreamChange, streams: this.state.streams, currentStream: this.state.currentStream }),
+            React.createElement(_addidea2.default, { handleSubmit: this.handleSubmit,
+                handleChange: this.handleChange,
+                idea: this.state.newIdea,
+                handleStreamChange: this.handleStreamChange,
+                streams: this.state.streams,
+                currentStreamName: this.state.currentStreamName,
+                handleContentChange: this.handleContentChange
+            }),
             this.state.message,
             React.createElement('hr', null),
             React.createElement(_streamdetails2.default, { stream: this.state.stream, ideasLength: this.state.ideasLength })

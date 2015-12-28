@@ -4,7 +4,6 @@ var StreamDetails = React.createClass({
     getDefaultProps() {
         return {
             stream: {
-                ideasLength: 'hey',
                 name: '',
                 id: '',
                 ideas: []

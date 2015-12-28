@@ -48,10 +48,7 @@ var IdeaHomepage = React.createClass({
 
         // Set current Stream
         let newState = this.state
-        newState.stream = event.target.value
-
-        console.log('stream changed',newState)
-        console.log(this.state)
+        newState.idea.stream = event.target.value
         this.setState(newState)
     },
     fetchData(ideaId){
@@ -74,7 +71,8 @@ var IdeaHomepage = React.createClass({
                 }
             })
             .then(function(data){
-                self.setState({'idea': data, streamId: data.stream.id, currentStream: data.stream.name})
+                self.setState({'idea': data, streamId: data.stream.id, currentStreamName: data.stream.name })
+                console.log(self.state)
             })
         }
     },
@@ -171,10 +169,12 @@ var IdeaHomepage = React.createClass({
                     streamId={this.state.streamId}
                     handleChange={this.handleChange}
                     streams={this.state.streams}
+                    currentStreamName={this.state.currentStreamName}
                     currentStream={this.state.currentStream}
                     handleStreamChange={this.handleStreamChange}
-                    handleContentChange={this.handleContentChange} 
-                    handleSubmit={this.handleSubmit} />
+                    handleContentChange={this.handleContentChange}
+                    handleSubmit={this.handleSubmit}
+                    html={this.state.idea.content} />
                 <DeleteResource resourceId={this.state.idea.id} endpoint="/api/v1/idea/" className="btn"/>
                 {this.state.message}
             </div>
