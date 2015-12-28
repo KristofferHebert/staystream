@@ -376,7 +376,7 @@ var IdeaList = React.createClass({
 
             return React.createElement(
                 'div',
-                { key: i },
+                { key: i, className: 'idea-item' },
                 React.createElement(
                     'h3',
                     null,
@@ -384,7 +384,7 @@ var IdeaList = React.createClass({
                     ' ',
                     React.createElement(
                         _reactRouter.Link,
-                        { to: ideaLink },
+                        { to: ideaLink, className: 'fr' },
                         '(edit)'
                     )
                 ),
@@ -711,6 +711,7 @@ var Wrapper = React.createClass({
         };
     },
     toggleMenu: function toggleMenu(event) {
+        event.preventDefault();
         var showMenu = !this.state.showMenu;
         this.setState({ showMenu: showMenu });
     },
@@ -724,20 +725,20 @@ var Wrapper = React.createClass({
             null,
             React.createElement(
                 'aside',
-                { className: this.state.showMenu ? 'sidebar hidden' : 'sidebar' },
+                { className: this.state.showMenu ? 'sidebar' : 'sidebar hidden' },
                 React.createElement(
                     'nav',
                     null,
                     React.createElement(
                         'ul',
-                        null,
+                        { className: 'list-nostyle' },
                         React.createElement(
                             'li',
                             null,
                             React.createElement(
                                 _reactRouter.Link,
-                                { to: '/u/stream' },
-                                'Your Streams'
+                                { className: 'menu-item-vertical', to: '/u/stream' },
+                                'Streams'
                             )
                         ),
                         React.createElement(
@@ -745,7 +746,7 @@ var Wrapper = React.createClass({
                             null,
                             React.createElement(
                                 _reactRouter.Link,
-                                { to: '/logout' },
+                                { className: 'menu-item-vertical', to: '/logout' },
                                 'Logout'
                             )
                         )
@@ -753,59 +754,63 @@ var Wrapper = React.createClass({
                 )
             ),
             React.createElement(
-                'header',
-                { className: 'main bg-dark tc' },
+                'div',
+                { className: this.state.showMenu ? 'addSpacingForMenu' : '' },
                 React.createElement(
-                    'nav',
-                    { className: 'wrapper' },
+                    'header',
+                    { className: 'main bg-dark tc' },
                     React.createElement(
-                        'ul',
-                        { className: 'list-inline' },
+                        'nav',
+                        { className: 'wrapper' },
                         React.createElement(
-                            'li',
-                            { className: 'fl' },
+                            'ul',
+                            { className: 'list-inline' },
                             React.createElement(
-                                'a',
-                                { href: '#', className: 'menu-item', onClick: this.toggleMenu },
-                                'Menu'
-                            )
-                        ),
-                        React.createElement(
-                            'li',
-                            null,
+                                'li',
+                                { className: 'fl' },
+                                React.createElement(
+                                    'a',
+                                    { href: '#', className: 'fa fa-bars menu-item', onClick: this.toggleMenu },
+                                    'Menu'
+                                )
+                            ),
                             React.createElement(
-                                'a',
-                                { href: '#', className: 'menu-item', onClick: this.disableLink },
-                                'Staystream'
-                            )
-                        ),
-                        React.createElement(
-                            'li',
-                            { className: 'fr' },
+                                'li',
+                                null,
+                                React.createElement(
+                                    'a',
+                                    { href: '#', className: 'menu-item', onClick: this.disableLink },
+                                    'Staystream'
+                                )
+                            ),
                             React.createElement(
-                                _reactRouter.Link,
-                                { to: '/u/', className: 'menu-item' },
-                                'Add New Idea'
+                                'li',
+                                { className: 'fr' },
+                                React.createElement(
+                                    _reactRouter.Link,
+                                    { to: '/u/', className: 'fa fa-pencil-square-o fa-3 menu-item' },
+                                    'Add New Idea'
+                                )
                             )
                         )
                     )
-                )
-            ),
-            React.createElement(
-                'main',
-                { className: 'wrapper' },
-                this.props.children
-            ),
-            React.createElement(
-                'footer',
-                null,
+                ),
                 React.createElement(
-                    'section',
-                    { className: 'wrapper tc' },
+                    'main',
+                    { className: 'wrapper container' },
+                    this.props.children
+                ),
+                React.createElement(
+                    'footer',
+                    null,
                     React.createElement(
-                        'p',
-                        null,
-                        '2015 Staystream.com'
+                        'section',
+                        { className: 'wrapper tc' },
+                        React.createElement(
+                            'p',
+                            null,
+                            '2015 Staystream.com'
+                        )
                     )
                 )
             )

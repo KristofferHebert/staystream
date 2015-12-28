@@ -15,8 +15,8 @@ var IdeaList = React.createClass({
         var ideaLink = "/u/idea/" + idea.id
 
             return (
-                <div key={i}>
-                    <h3>{idea.name} <Link to={ideaLink} >(edit)</Link></h3>
+                <div key={i} className="idea-item">
+                    <h3>{idea.name} <Link to={ideaLink} className="fr">(edit)</Link></h3>
                     <p>{idea.content}</p>
                 </div>
             )

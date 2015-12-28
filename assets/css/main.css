@@ -8,16 +8,11 @@ body {
     margin: 0;
     background: #e2e4e6;
     color: #4d4d4d;
+    font-size: 100%;
 }
 
-a {
-    color:
-}
-
-.wrapper {
-    max-width: 1024px;
-    min-width: 320px;
-    margin: auto;
+a, .fa {
+    color: #2b7bb9;
 }
 
 input, select, .btn, .input-content {
@@ -30,34 +25,20 @@ input, select, .btn, .input-content {
     font-size: 1em;
 }
 
-.input-content {
-    height: 12em;
+input::-webkit-input-placeholder {
+    color: #999;
 }
 
-select {
-    height: 3em;
+input:-moz-placeholder {
+    color: #999;
 }
 
-.btn {
-    text-align: center;
+input::-moz-placeholder {
+    color: #999;
 }
 
-
-
-.list-inline {
-    padding: 0;
-    margin:0;
-    list-style: none;
-}
-
-.list-inline li {
-    display: inline-block;
-}
-
-.menu-item {
-    padding: .4em;
-    display: inline-block;
-    text-decoration: none;
+input:-ms-input-placeholder {
+    color: #999;
 }
 
 [contenteditable=true]:empty:before{
@@ -66,11 +47,86 @@ select {
   color: #999;
 }
 
+select {
+    height: 3em;
+}
+
+.container {
+    padding: 1em;
+}
+
+.wrapper {
+    max-width: 960px;
+    min-width: 320px;
+    width: 100%;
+    margin: auto;
+}
+
+.sidebar {
+    width: 280px;
+    background: #333;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+}
+
+.addSpacingForMenu {
+    padding-left: 280px;
+}
+
+.input-content {
+    height: 12em;
+    background: #fff;
+}
+
+.btn {
+    text-align: center;
+}
+
+.list-inline, .list-nostyle {
+    padding: 0;
+    margin:0;
+}
+
+.list-inline li {
+    display: inline-block;
+}
+
+.menu-item, .menu-item-vertical {
+    padding: 1em;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.menu-item-vertical {
+    display: block;
+    border-bottom: 1px solid #999;
+}
+
+.menu-item-vertical:hover, .menu-item-vertical:active {
+    background: #444;
+}
+
+.fa.menu-item-vertical::before, .fa.menu-item::before {
+    margin-right: .4em;
+}
+
+/* Idea styling*/
+
+.idea-item {
+    background: #fff;
+    padding: .4em 1em;
+    border: 1px solid #ddd;
+    margin-bottom: .4em;
+}
+
 /*
     Helper classes
 */
+*
 body .bg-dark {
-    background: #333;
+    background: #222;
 }
 
 body .tc {
@@ -83,4 +139,16 @@ body .fr {
 
 body .fl {
     float: left;
+}
+
+body .hidden {
+    display: none;
+}
+
+.pr {
+    margin-right: -.4em;
+}
+
+.mr {
+    margin-right: .4em;
 }
