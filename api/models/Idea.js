@@ -10,11 +10,9 @@ module.exports = {
 	attributes: {
         name: {
             type: 'string',
-            maxLength: 35
         },
         content: {
             type: 'string',
-            minLength: 20,
             maxLength: 400
         },
         stream: {

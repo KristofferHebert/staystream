@@ -26,7 +26,8 @@ var JWT_STRATEGY_CONFIG = {
 	issuer: ISSUER,
 	audience: AUDIENCE,
     authScheme: 'Bearer:',
-	passReqToCallback: false
+	passReqToCallback: false,
+	ignoreExpiration: true
 }
 
 // handlers for passport authentication
