@@ -12,6 +12,7 @@ var StreamList = React.createClass({
             return (
                 <li>
                     <Link to={streamlink} key={i}>{stream.name} ({stream.ideas.length})</Link>
+                    <Link to={streamlink} className="fr"> add new idea</Link>
                 </li>
             )
         })

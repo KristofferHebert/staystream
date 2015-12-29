@@ -1,14 +1,11 @@
+'use strict'
+
 // Fetch dependencies
+import { Link } from 'react-router'
 import Signup from '../components/signup.jsx'
 import Login from '../components/login.jsx'
-import { browserHistory, Router, Route, Link } from 'react-router'
 
 var HomePage = React.createClass({
-    contextTypes: {
-      router: React.PropTypes.object.isRequired
-    },
-    componentDidMount() {
-    },
     handleClick(event){
         event.preventDefault()
         console.log(this.context, this.props.router)

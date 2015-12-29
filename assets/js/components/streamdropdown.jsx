@@ -17,7 +17,7 @@ var StreamDropdown = React.createClass({
 
         var options = this.props.streams.map((stream, i) => {
             return (
-                <option key={i} value={stream.id} selected={this.props.currentStreamName == stream.name}>{stream.name} </option>
+                <option key={i} value={stream.id} selected={this.props.currentStreamName == stream.name}> Select Stream: {stream.name} </option>
             )
         })
 

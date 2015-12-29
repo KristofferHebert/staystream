@@ -7,6 +7,7 @@ var LogoutPage = React.createClass({
     mixins: [History],
     componentWillUpdate(){
             Auth.logoutUser()
+            this.history.pushState(null, '/')
     },
     render: function(){
         return (

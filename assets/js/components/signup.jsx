@@ -1,20 +1,24 @@
 'use strict'
 
-var Input = require('./input.jsx')
-var Form = require('./form.jsx')
-var Submit = require('./submit.jsx')
-var Auth = require('../utils/auth.jsx')
+import { History, Link } from 'react-router'
+import Input from './input.jsx'
+import Form from './form.jsx'
+import Submit from './submit.jsx'
+import Auth from '../utils/auth.jsx'
 
 var endpoint = '/api/v1/user'
 
 var Signup = React.createClass({
-    setInitialState: function(){
+    mixins: [History],
+    getInitialState(){
         return {
             user: ''
         }
     },
-    handleSubmit: function(event){
+    handleSubmit(event){
         event.preventDefault()
+
+        var self = this
 
         // get new user and modify for json
         var newUser = this.state.user
@@ -32,7 +36,7 @@ var Signup = React.createClass({
             if(response.ok){
                 Auth.loginUser(newUser, function(err, response){
                     if(err) throw err
-                    console.log(response.statusText)
+                    self.history.pushState(null, '/u/stream')
                 })
             }
 
