@@ -1,4 +1,6 @@
 import AddIdea from '../components/addidea.jsx'
+import IdeaList from '../components/idealist.jsx'
+
 import Auth from '../utils/auth.jsx'
 
 var UserHomepage = React.createClass({
@@ -10,6 +12,7 @@ var UserHomepage = React.createClass({
                 "name": "",
                 "content": ""
             },
+            ideas: [],
             streams: [],
             currentStream: "",
             message: ""
@@ -18,6 +21,7 @@ var UserHomepage = React.createClass({
     componentDidMount(){
         var userID = Auth.getId()
         this.getStreams(userID)
+        this.getIdeas(userID)
     },
     handleStreamChange(event){
 
@@ -91,6 +95,34 @@ var UserHomepage = React.createClass({
             })
         }
     },
+    getIdeas(userID){
+        var token = Auth.getToken()
+        var self = this
+        var settings = {
+            method: 'get',
+            headers: {
+               'Accept': 'application/json',
+               'Content-Type': 'application/json',
+               'Authorization' : 'Bearer: ' + token
+            }
+        }
+
+        if(token && userID){
+            fetch('/api/v1/idea?owner=' + userID, settings)
+            .then(function(response){
+                if(response.status === 200){
+                    return response.json()
+                }
+            })
+            .then(function(ideas){
+                if(ideas){
+                    self.setState({ideas: ideas})
+                } else {
+                    console.log('Save failed', data)
+                }
+            })
+        }
+    },
     getStreams(userID){
         var token = Auth.getToken()
         var self = this
@@ -159,6 +191,7 @@ var UserHomepage = React.createClass({
                     handleContentChange={this.handleContentChange}/>
                 {this.state.message}
                 <hr />
+                <IdeaList ideas={this.state.ideas} />
             </div>
         )
     }

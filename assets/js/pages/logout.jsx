@@ -1,14 +1,18 @@
+'use strict'
+
 import Auth from '../utils/auth.jsx'
+import { History } from 'react-router'
 
 var LogoutPage = React.createClass({
-    componentDidMount(){
+    mixins: [History],
+    componentWillUpdate(){
             Auth.logoutUser()
     },
     render: function(){
         return (
             <div>
                 <h3>Log out</h3>
-                <p>You are now logged out</p>
+                <p>You have been logged out</p>
             </div>
         )
     }

@@ -1,6 +1,6 @@
 import Auth from './auth.jsx'
 
-function requireAuth(nextState, replaceState) {
+function requireAuth() {
   if (!Auth.isLoggedIn())
     replaceState(null, 'login')
 }

@@ -1,7 +1,7 @@
 import { Router, Route, IndexRoute, Link, IndexLink, browserHistory } from 'react-router'
-import { createHistory, useBasename } from 'history'
+import { createHashHistory, useBasename } from 'history'
 
-var History = createHistory()
+var History = createHashHistory()
 
 import requireAuth from './utils/auth.jsx'
 import Auth from './utils/auth.jsx'
@@ -41,4 +41,4 @@ var Routes = (
     </Route>
 )
 
-ReactDOM.render(<Router routes={Routes} history={browserHistory}/>, document.getElementById('app'))
+ReactDOM.render(<Router routes={Routes} history={History}/>, document.getElementById('app'))

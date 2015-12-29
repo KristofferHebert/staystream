@@ -1,4 +1,5 @@
 'use strict'
+import { History } from 'react-router'
 
 var Input = require('./input.jsx')
 var Form = require('./form.jsx')
@@ -6,9 +7,7 @@ var Submit = require('./submit.jsx')
 var Auth = require('../utils/auth.jsx')
 
 var Login = React.createClass({
-    contextTypes: {
-        router: React.PropTypes.func
-    },
+    mixins: [History],
     getInitialState(){
         return this.state = {
             user: {},
@@ -32,9 +31,9 @@ var Login = React.createClass({
             if(response.status == 401) {
                 return self.setState({message: 'Please provide correct credentials'})
             }
-            
-            // Not sure how to improve this.
-            self.context.router.transitionTo('/u')
+
+            // Not sure how to improve this. Remove mixin?
+            self.history.pushState(null, '/u')
             self.setState({message: ''})
         })
     },
