@@ -30,7 +30,7 @@ var Wrapper = React.createClass({
                         <nav className="wrapper">
                             <ul className="list-inline">
                                 <li className="fl"><a href="#" className="fa fa-bars menu-item" onClick={this.toggleMenu}>Menu</a></li>
-                                <li><a href="#" className="menu-item" onClick={this.disableLink}>Staystream</a></li>
+                                <li className="fr"><Link to="/u/" className="fa fa-pencil-square-o fa-3 menu-item">Staystream</Link></li>                        
                                 <li className="fr"><Link to="/u/" className="fa fa-pencil-square-o fa-3 menu-item">Add New Idea</Link></li>
                             </ul>
                         </nav>
