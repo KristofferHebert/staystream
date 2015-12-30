@@ -122,16 +122,28 @@ var AddIdea = React.createClass({
             React.createElement(
                 _form2.default,
                 { onSubmit: this.props.handleSubmit, className: this.props.className },
-                React.createElement(_input2.default, { type: 'text', name: 'name', placeholder: 'Idea Name', className: 'input input-email', value: this.props.idea.name, onChange: this.props.handleChange }),
+                React.createElement(
+                    'div',
+                    { className: 'row' },
+                    React.createElement(
+                        'div',
+                        { className: 'half' },
+                        React.createElement(_input2.default, { type: 'text', name: 'name', placeholder: 'Idea Name', className: 'input input-email', value: this.props.idea.name, onChange: this.props.handleChange })
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'half last' },
+                        React.createElement(_StreamDropdown2.default, { streams: this.props.streams,
+                            currentStream: this.props.currentStream,
+                            currentStreamName: this.props.currentStreamName,
+                            handleStreamChange: this.props.handleStreamChange })
+                    )
+                ),
                 React.createElement(ContentEditable, { onChange: this.props.handleContentChange, name: 'content',
                     placeholder: 'Idea Content',
                     minLength: this.props.minimum,
                     html: this.props.idea.content,
                     className: 'input input-content' }),
-                React.createElement(_StreamDropdown2.default, { streams: this.props.streams,
-                    currentStream: this.props.currentStream,
-                    currentStreamName: this.props.currentStreamName,
-                    handleStreamChange: this.props.handleStreamChange }),
                 React.createElement(_submit2.default, { value: 'Save', className: 'input input-submit' })
             )
         );

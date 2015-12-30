@@ -48,7 +48,7 @@ input:-ms-input-placeholder {
 }
 
 select {
-    height: 3em;
+    height: 2.3em;
 }
 
 .container {
@@ -68,6 +68,22 @@ select {
     position: absolute;
     top: 0;
     bottom: 0;
+}
+
+/* Grid */
+
+.row {
+    width: 100%;
+}
+
+.half {
+    width: 50%;
+    float: left;
+    padding-right: .5em;
+}
+
+.last {
+    padding-right: 0;
 }
 
 .addSpacingForMenu {
