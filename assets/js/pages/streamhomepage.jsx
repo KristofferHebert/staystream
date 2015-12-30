@@ -89,10 +89,12 @@ var StreamHomepage = React.createClass({
                     return response
                 }
             })
-            .then(function(data){
-                if(data.id){
-                    this.state.streams.concat([data])
-                    return self.setState({'newStream': {}})
+            .then(function(response){
+                if(response.data){
+                    // fix issue with stream response with no idea attribute
+                    response.data.ideas = []
+                    var streams = self.state.streams.concat([response.data])
+                    return self.setState({'newStream': {}, 'streams': streams})
                 }
                 return console.log('Save failed', data)
             })

@@ -251,9 +251,12 @@ var _auth = require('../utils/auth.jsx');
 
 var _auth2 = _interopRequireDefault(_auth);
 
+var _reactRouter = require('react-router');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var DeleteResource = React.createClass({
+    mixins: [_reactRouter.History],
     getInitialState: function getInitialState() {
         return {
             message: ""
@@ -284,7 +287,13 @@ var DeleteResource = React.createClass({
                 }
             }).then(function (data) {
                 if (data.id) {
-                    return self.setState({ 'idea': data, streamId: data.stream.id });
+
+                    // self.setState({'idea': data, streamId: data.stream.id})
+                    // self.history.goBack()
+
+                    var streamLink = '/u/stream/' + data.stream.id;
+
+                    self.history.pushState(null, streamLink);
                 }
                 return console.log('Save failed', data);
             });
@@ -306,7 +315,7 @@ var DeleteResource = React.createClass({
 
 exports.default = DeleteResource;
 
-},{"../utils/auth.jsx":28}],7:[function(require,module,exports){
+},{"../utils/auth.jsx":28,"react-router":79}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1142,7 +1151,6 @@ var IdeaHomepage = React.createClass({
                 }
             }).then(function (data) {
                 self.setState({ 'idea': data, streamId: data.stream.id, currentStreamName: data.stream.name });
-                console.log(self.state);
             });
         }
     },
@@ -1740,10 +1748,12 @@ var StreamHomepage = React.createClass({
                     self.setState({ message: 'Saving Failed' });
                     return response;
                 }
-            }).then(function (data) {
-                if (data.id) {
-                    this.state.streams.concat([data]);
-                    return self.setState({ 'newStream': {} });
+            }).then(function (response) {
+                if (response.data) {
+                    // fix issue with stream response with no idea attribute
+                    response.data.ideas = [];
+                    var streams = self.state.streams.concat([response.data]);
+                    return self.setState({ 'newStream': {}, 'streams': streams });
                 }
                 return console.log('Save failed', data);
             });

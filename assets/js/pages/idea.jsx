@@ -72,7 +72,6 @@ var IdeaHomepage = React.createClass({
             })
             .then(function(data){
                 self.setState({'idea': data, streamId: data.stream.id, currentStreamName: data.stream.name })
-                console.log(self.state)
             })
         }
     },

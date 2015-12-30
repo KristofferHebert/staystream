@@ -1,6 +1,8 @@
 import Auth from '../utils/auth.jsx'
+import {History} from 'react-router'
 
 var DeleteResource = React.createClass({
+    mixins: [History],
     getInitialState(){
         return {
             message: ""
@@ -33,7 +35,13 @@ var DeleteResource = React.createClass({
             })
             .then(function(data){
                 if(data.id){
-                    return self.setState({'idea': data, streamId: data.stream.id})
+
+                    // self.setState({'idea': data, streamId: data.stream.id})
+                    // self.history.goBack()
+
+                    var streamLink = '/u/stream/' + data.stream.id
+
+                    self.history.pushState(null, streamLink)
                 }
                 return console.log('Save failed', data)
             })
