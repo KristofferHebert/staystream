@@ -1,4 +1,5 @@
 import { Link } from 'react-router'
+import Auth from '../utils/auth.jsx'
 
 var Wrapper = React.createClass({
     getInitialState(){
@@ -15,6 +16,9 @@ var Wrapper = React.createClass({
         event.preventDefault()
     },
     render: function(){
+        var isLoggedIn = Auth.isLoggedIn()
+        var Home = (isLoggedIn) ? '/u/' : '/'
+
         return (
             <div>
                 <aside className={this.state.showMenu ? 'sidebar' : 'sidebar hidden'}>
@@ -29,9 +33,9 @@ var Wrapper = React.createClass({
                     <header className="main bg-dark tc">
                         <nav className="wrapper">
                             <ul className="list-inline">
-                                <li className="fl"><a href="#" className="fa fa-bars menu-item" onClick={this.toggleMenu}>Menu</a></li>
-                                <li className="fr"><Link to="/u/" className="fa fa-pencil-square-o fa-3 menu-item">Staystream</Link></li>                        
-                                <li className="fr"><Link to="/u/" className="fa fa-pencil-square-o fa-3 menu-item">Add New Idea</Link></li>
+                                <li className={ (isLoggedIn) ? 'fl' : 'hidden'}><a href="#" className="fa fa-bars menu-item" onClick={this.toggleMenu}>Menu</a></li>
+                                <li><Link to={Home} className="menu-item">Staystream</Link></li>
+                                <li className={ (isLoggedIn) ? 'fr' : 'hidden'}><Link to="/u/" className="fa fa-pencil-square-o fa-3 menu-item">Add New Idea</Link></li>
                             </ul>
                         </nav>
                     </header>

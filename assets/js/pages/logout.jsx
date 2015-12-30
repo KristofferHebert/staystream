@@ -5,7 +5,7 @@ import { History } from 'react-router'
 
 var LogoutPage = React.createClass({
     mixins: [History],
-    componentWillUpdate(){
+    componentDidMount(){
             Auth.logoutUser()
             this.history.pushState(null, '/')
     },

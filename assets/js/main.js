@@ -427,7 +427,6 @@ var IdeaList = React.createClass({
         };
     },
     render: function render() {
-        console.log(this.props.ideas);
         var ideaslist = this.props.ideas.map(function (idea, i) {
             var ideaLink = "/u/idea/" + idea.id;
 
@@ -787,6 +786,12 @@ Object.defineProperty(exports, "__esModule", {
 
 var _reactRouter = require('react-router');
 
+var _auth = require('../utils/auth.jsx');
+
+var _auth2 = _interopRequireDefault(_auth);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var Wrapper = React.createClass({
     getInitialState: function getInitialState() {
         return {
@@ -803,6 +808,9 @@ var Wrapper = React.createClass({
     },
 
     render: function render() {
+        var isLoggedIn = _auth2.default.isLoggedIn();
+        var Home = isLoggedIn ? '/u/' : '/';
+
         return React.createElement(
             'div',
             null,
@@ -850,7 +858,7 @@ var Wrapper = React.createClass({
                             { className: 'list-inline' },
                             React.createElement(
                                 'li',
-                                { className: 'fl' },
+                                { className: isLoggedIn ? 'fl' : 'hidden' },
                                 React.createElement(
                                     'a',
                                     { href: '#', className: 'fa fa-bars menu-item', onClick: this.toggleMenu },
@@ -861,14 +869,14 @@ var Wrapper = React.createClass({
                                 'li',
                                 null,
                                 React.createElement(
-                                    'a',
-                                    { href: '#', className: 'menu-item', onClick: this.disableLink },
+                                    _reactRouter.Link,
+                                    { to: Home, className: 'menu-item' },
                                     'Staystream'
                                 )
                             ),
                             React.createElement(
                                 'li',
-                                { className: 'fr' },
+                                { className: isLoggedIn ? 'fr' : 'hidden' },
                                 React.createElement(
                                     _reactRouter.Link,
                                     { to: '/u/', className: 'fa fa-pencil-square-o fa-3 menu-item' },
@@ -903,7 +911,7 @@ var Wrapper = React.createClass({
 
 exports.default = Wrapper;
 
-},{"react-router":79}],18:[function(require,module,exports){
+},{"../utils/auth.jsx":28,"react-router":79}],18:[function(require,module,exports){
 'use strict';
 
 var _reactRouter = require('react-router');
@@ -1285,7 +1293,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var LogoutPage = React.createClass({
     mixins: [_reactRouter.History],
-    componentWillUpdate: function componentWillUpdate() {
+    componentDidMount: function componentDidMount() {
         _auth2.default.logoutUser();
         this.history.pushState(null, '/');
     },
