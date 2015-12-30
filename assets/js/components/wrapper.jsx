@@ -24,7 +24,6 @@ var Wrapper = React.createClass({
                 <aside className={this.state.showMenu ? 'sidebar' : 'sidebar hidden'}>
                     <nav>
                         <ul className="list-nostyle">
-                          <li><Link className="menu-item-vertical" to="/u/stream">Streams</Link></li>
                           <li><Link className="menu-item-vertical" to="/logout">Logout</Link></li>
                         </ul>
                     </nav>
@@ -35,6 +34,7 @@ var Wrapper = React.createClass({
                             <ul className="list-inline">
                                 <li className={ (isLoggedIn) ? 'fl' : 'hidden'}><a href="#" className="fa fa-bars menu-item" onClick={this.toggleMenu}>Menu</a></li>
                                 <li><Link to={Home} className="menu-item">Staystream</Link></li>
+                                <li className={ (isLoggedIn) ? 'fr' : 'hidden'}><Link className="menu-item" to="/u/stream">Streams</Link></li>
                                 <li className={ (isLoggedIn) ? 'fr' : 'hidden'}><Link to="/u/" className="fa fa-pencil-square-o fa-3 menu-item">Add New Idea</Link></li>
                             </ul>
                         </nav>

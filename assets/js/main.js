@@ -837,15 +837,6 @@ var Wrapper = React.createClass({
                             null,
                             React.createElement(
                                 _reactRouter.Link,
-                                { className: 'menu-item-vertical', to: '/u/stream' },
-                                'Streams'
-                            )
-                        ),
-                        React.createElement(
-                            'li',
-                            null,
-                            React.createElement(
-                                _reactRouter.Link,
                                 { className: 'menu-item-vertical', to: '/logout' },
                                 'Logout'
                             )
@@ -881,6 +872,15 @@ var Wrapper = React.createClass({
                                     _reactRouter.Link,
                                     { to: Home, className: 'menu-item' },
                                     'Staystream'
+                                )
+                            ),
+                            React.createElement(
+                                'li',
+                                { className: isLoggedIn ? 'fr' : 'hidden' },
+                                React.createElement(
+                                    _reactRouter.Link,
+                                    { className: 'menu-item', to: '/u/stream' },
+                                    'Streams'
                                 )
                             ),
                             React.createElement(
