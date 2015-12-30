@@ -22,7 +22,7 @@ var IdeaList = React.createClass({
 
             return (
                 <div key={i} className="idea-item">
-                    <h3>{idea.name} <Link to={ideaLink} className="fr small">(edit)</Link></h3>
+                    <h3 className="mb">{idea.name} <Link to={ideaLink} className="fr small">(edit)</Link></h3>
                     <Date date={idea.updatedAt} />
                     <p>{idea.content}</p>
                 </div>

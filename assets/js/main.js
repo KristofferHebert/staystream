@@ -444,7 +444,7 @@ var IdeaList = React.createClass({
                 { key: i, className: 'idea-item' },
                 React.createElement(
                     'h3',
-                    null,
+                    { className: 'mb' },
                     idea.name,
                     ' ',
                     React.createElement(
