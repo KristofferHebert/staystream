@@ -1,34 +1,6 @@
-var ContentEditable = React.createClass({
-    render: function(){
-        return (
-            <div>
-                <label>Content</label>
-                <div
-                    className={this.props.className}
-                    onInput={this.emitChange}
-                    onBlur={this.emitChange}
-                    contentEditable
-                    dangerouslySetInnerHTML={{__html: this.props.html}}></div>
-            </div>
-        )
-    },
-    shouldComponentUpdate: function(nextProps){
-        return nextProps.html !== this.getDOMNode().innerHTML
-    },
-    emitChange: function(){
-        var html = this.getDOMNode().innerHTML
-        if (this.props.onChange && html !== this.lastHtml) {
+'use strict'
 
-            this.props.onChange({
-                target: {
-                    value: html
-                }
-            })
-        }
-        this.lastHtml = html
-    }
-})
-
+import ContentEditable from './contenteditable.jsx'
 
 var AddIdeaForm = React.createClass({
     getDefaultProps: function() {
