@@ -28,9 +28,6 @@ var UserHomepage = React.createClass({
         // Set current Stream
         let newState = this.state
         newState.currentStream = event.target.value
-
-        console.log(newState)
-
         this.setState(newState)
     },
     handleChange(event){
@@ -176,7 +173,6 @@ var UserHomepage = React.createClass({
         // newIdea.tags = newTags
 
         newIdea.content = newContent
-        console.log(newIdea)
         this.setState({newIdea: newIdea})
     },
     render: function(){
@@ -188,7 +184,9 @@ var UserHomepage = React.createClass({
                     idea={this.state.newIdea}
                     streams={this.state.streams}
                     handleStreamChange={this.handleStreamChange}
-                    handleContentChange={this.handleContentChange}/>
+                    handleContentChange={this.handleContentChange}
+                    html={this.state.newIdea.content} />
+
                 {this.state.message}
                 <hr />
                 <IdeaList ideas={this.state.ideas} />

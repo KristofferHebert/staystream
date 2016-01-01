@@ -1,35 +1,8 @@
 import Input from './input.jsx'
 import Form from './form.jsx'
 import Submit from './submit.jsx'
-import StreamDropdown from './StreamDropdown.jsx'
-
-
-var ContentEditable = React.createClass({
-    render: function(){
-        return <div
-            className={this.props.className}
-            onInput={this.emitChange}
-            onBlur={this.emitChange}
-            placeholder={this.props.placeholder}
-            contentEditable
-            dangerouslySetInnerHTML={{__html: this.props.html}}></div>
-    },
-    shouldComponentUpdate: function(nextProps){
-        return nextProps.html !== ReactDOM.findDOMNode(this).innerHTML
-    },
-    emitChange: function(){
-        var html = ReactDOM.findDOMNode(this).innerHTML
-        if (this.props.onChange && html !== this.lastHtml) {
-
-            this.props.onChange({
-                target: {
-                    value: html
-                }
-            })
-        }
-        this.lastHtml = html
-    }
-})
+import StreamDropdown from './streamdropdown.jsx'
+import ContentEditable from './contenteditable.jsx'
 
 // pass handleSubmit & handleChange from parent component
 var AddIdea = React.createClass({
