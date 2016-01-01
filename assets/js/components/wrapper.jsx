@@ -54,6 +54,7 @@ var Wrapper = React.createClass({
                 <aside className={this.state.showMenu && isLoggedIn ? 'sidebar' : 'sidebar hidden'}>
                     <nav>
                         <ul className="list-nostyle">
+                            <li><Link to="/u/settings" className="fa fa-cog menu-item-vertical">Settings</Link></li>
                           <li><a className="menu-item-vertical" onClick={this.handleLogout} >Logout</a></li>
                         </ul>
                     </nav>

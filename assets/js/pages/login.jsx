@@ -12,4 +12,4 @@ var LoginPage = React.createClass({
 })
 
 
-module.exports = LoginPage
+export default LoginPage

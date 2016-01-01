@@ -9,7 +9,7 @@ var LogoutPage = React.createClass({
             Auth.logoutUser()
             this.history.pushState(null, '/')
     },
-    render: function(){
+    render(){
         return (
             <div>
                 <h3>Log out</h3>
@@ -20,4 +20,4 @@ var LogoutPage = React.createClass({
 })
 
 
-module.exports = LogoutPage
+export default LogoutPage

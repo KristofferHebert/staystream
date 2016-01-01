@@ -15,7 +15,7 @@ import LogoutPage from './pages/logout.jsx'
 import UserHomepage from './pages/userhomepage.jsx'
 import SearchPage from './pages/search.jsx'
 import IdeaPage from './pages/idea.jsx'
-
+import SettingsPage from './pages/settings.jsx'
 
 
 // Todo fix history={history}
@@ -34,6 +34,8 @@ var Routes = (
                 <Route path=":id" component={IdeaPage}/>
         </Route>
         <Route path="search/:q" component={SearchPage} />
+        <Route path="settings" component={SettingsPage} />
+
       </Route>
       <Route path="logout" component={LogoutPage}></Route>
       <Route path="login" component={LoginPage}></Route>
