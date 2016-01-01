@@ -8,7 +8,8 @@ var Wrapper = React.createClass({
             showMenu: false,
         }
     },
-    toggleMenu(){
+    toggleMenu(event){
+        event.preventDefault()
         var showMenu = !this.state.showMenu
         this.setState({showMenu: showMenu})
     },

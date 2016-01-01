@@ -765,7 +765,8 @@ var Wrapper = React.createClass({
             showMenu: false
         };
     },
-    toggleMenu: function toggleMenu() {
+    toggleMenu: function toggleMenu(event) {
+        event.preventDefault();
         var showMenu = !this.state.showMenu;
         this.setState({ showMenu: showMenu });
     },
