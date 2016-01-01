@@ -1,41 +1,44 @@
-import { Link } from 'react-router'
+import { Link, History } from 'react-router'
 import Auth from '../utils/auth.jsx'
 
 var Wrapper = React.createClass({
+    mixins: [History],
     getInitialState(){
         return {
-            showMenu: false
+            showMenu: false,
         }
     },
-    toggleMenu(event){
-        event.preventDefault()
+    toggleMenu(){
         var showMenu = !this.state.showMenu
         this.setState({showMenu: showMenu})
     },
-    disableLink(event){
-        event.preventDefault()
+    handleLogout(){
+        this.toggleMenu()
+        this.history.pushState(null, '/logout')
+    },
+    isEditPage(){
+        var hash = window.location.hash.split('/')
+        return (hash.length === 4 && hash[2] === 'idea')
+    },
+    goBack(){
+        this.history.goBack()
     },
     render: function(){
         var isLoggedIn = Auth.isLoggedIn()
         var Home = (isLoggedIn) ? '/u/' : '/'
+        var showBackButton = this.isEditPage()
 
         return (
             <div>
-                <aside className={this.state.showMenu ? 'sidebar' : 'sidebar hidden'}>
-                    <nav>
-                        <ul className="list-nostyle">
-                          <li><Link className="menu-item-vertical" to="/logout">Logout</Link></li>
-                        </ul>
-                    </nav>
-                </aside>
-                <div className={this.state.showMenu ? 'addSpacingForMenu' : ''}>
-                    <header className="main bg-dark tc">
+                <div className={this.state.showMenu && isLoggedIn ? 'addSpacingForMenu' : ''}>
+                    <header className="main bg-dark tc cf">
                         <nav className="wrapper">
                             <ul className="list-inline">
-                                <li className={ (isLoggedIn) ? 'fl' : 'hidden'}><a href="#" className="fa fa-bars menu-item" onClick={this.toggleMenu}>Menu</a></li>
-                                <li><Link to={Home} className="menu-item">Staystream</Link></li>
-                                <li className={ (isLoggedIn) ? 'fr' : 'hidden'}><Link className="menu-item" to="/u/stream">Streams</Link></li>
-                                <li className={ (isLoggedIn) ? 'fr' : 'hidden'}><Link to="/u/" className="fa fa-pencil-square-o fa-3 menu-item">Add New Idea</Link></li>
+                                <li className={ (isLoggedIn && !showBackButton) ? 'fl' : ''}><Link to={Home} className="menu-item">Staystream</Link></li>
+                                <li className={ (isLoggedIn && showBackButton) ? 'fl' : 'hidden'}><a href="#" className="fa fa-chevron-left menu-item" onClick={this.goBack}>Back</a></li>
+                                <li className={ (isLoggedIn) ? 'fr' : 'hidden'}><a href="#" className="fa fa-bars menu-item" onClick={this.toggleMenu}>Menu</a></li>
+                                <li className={ (isLoggedIn) ? 'fr' : 'hidden'}><Link className="fa fa-plus-square menu-item" to="/u/stream">Streams</Link></li>
+                                <li className={ (isLoggedIn) ? 'fr' : 'hidden'}><Link to="/u/" className="fa fa-edit menu-item">Add New Idea</Link></li>
                             </ul>
                         </nav>
                     </header>
@@ -48,6 +51,13 @@ var Wrapper = React.createClass({
                         </section>
                     </footer>
                 </div>
+                <aside className={this.state.showMenu && isLoggedIn ? 'sidebar' : 'sidebar hidden'}>
+                    <nav>
+                        <ul className="list-nostyle">
+                          <li><a className="menu-item-vertical" onClick={this.handleLogout} >Logout</a></li>
+                        </ul>
+                    </nav>
+                </aside>
             </div>
         )
     }

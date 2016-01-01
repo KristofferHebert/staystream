@@ -199,14 +199,15 @@ var ContentEditable = React.createClass({
             className: this.props.className,
             onInput: this.emitChange,
             onBlur: this.emitChange,
+            placeholder: this.props.placeholder,
             contentEditable: true,
             dangerouslySetInnerHTML: { __html: this.props.html } });
     },
     shouldComponentUpdate: function shouldComponentUpdate(nextProps) {
-        return nextProps.html !== this.getDOMNode().innerHTML;
+        return nextProps.html !== ReactDOM.findDOMNode(this).innerHTML;
     },
     emitChange: function emitChange() {
-        var html = this.getDOMNode().innerHTML;
+        var html = ReactDOM.findDOMNode(this).innerHTML;
         if (this.props.onChange && html !== this.lastHtml) {
 
             this.props.onChange({
@@ -379,15 +380,27 @@ var EditIdea = React.createClass({
             React.createElement(
                 _form2.default,
                 { onSubmit: this.props.handleSubmit, className: this.props.className },
-                React.createElement(_input2.default, { type: 'text', name: 'name', placeholder: 'Idea Name', className: 'input input-email', value: this.props.idea.name, onChange: this.props.handleChange }),
+                React.createElement(
+                    'div',
+                    { className: 'row' },
+                    React.createElement(
+                        'div',
+                        { className: 'half' },
+                        React.createElement(_input2.default, { type: 'text', name: 'name', placeholder: 'Idea Name', className: 'input input-email', value: this.props.idea.name, onChange: this.props.handleChange })
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'half last' },
+                        React.createElement(_streamdropdown2.default, { streams: this.props.streams,
+                            currentStream: this.props.currentStream,
+                            currentStreamName: this.props.currentStreamName,
+                            handleStreamChange: this.props.handleStreamChange })
+                    )
+                ),
                 React.createElement(_contenteditable2.default, { onChange: this.props.handleContentChange, name: 'content',
                     placeholder: 'Idea Content', minLength: this.props.minimum,
                     className: 'input input-content',
                     html: this.props.idea.content }),
-                React.createElement(_streamdropdown2.default, { streams: this.props.streams,
-                    currentStream: this.props.currentStream,
-                    currentStreamName: this.props.currentStreamName,
-                    handleStreamChange: this.props.handleStreamChange }),
                 React.createElement(_submit2.default, { value: 'Save', className: 'input input-submit' })
             )
         );
@@ -814,54 +827,42 @@ var _auth2 = _interopRequireDefault(_auth);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Wrapper = React.createClass({
+    mixins: [_reactRouter.History],
     getInitialState: function getInitialState() {
         return {
             showMenu: false
         };
     },
-    toggleMenu: function toggleMenu(event) {
-        event.preventDefault();
+    toggleMenu: function toggleMenu() {
         var showMenu = !this.state.showMenu;
         this.setState({ showMenu: showMenu });
     },
-    disableLink: function disableLink(event) {
-        event.preventDefault();
+    handleLogout: function handleLogout() {
+        this.toggleMenu();
+        this.history.pushState(null, '/logout');
+    },
+    isEditPage: function isEditPage() {
+        var hash = window.location.hash.split('/');
+        return hash.length === 4 && hash[2] === 'idea';
+    },
+    goBack: function goBack() {
+        this.history.goBack();
     },
 
     render: function render() {
         var isLoggedIn = _auth2.default.isLoggedIn();
         var Home = isLoggedIn ? '/u/' : '/';
+        var showBackButton = this.isEditPage();
 
         return React.createElement(
             'div',
             null,
             React.createElement(
-                'aside',
-                { className: this.state.showMenu ? 'sidebar' : 'sidebar hidden' },
-                React.createElement(
-                    'nav',
-                    null,
-                    React.createElement(
-                        'ul',
-                        { className: 'list-nostyle' },
-                        React.createElement(
-                            'li',
-                            null,
-                            React.createElement(
-                                _reactRouter.Link,
-                                { className: 'menu-item-vertical', to: '/logout' },
-                                'Logout'
-                            )
-                        )
-                    )
-                )
-            ),
-            React.createElement(
                 'div',
-                { className: this.state.showMenu ? 'addSpacingForMenu' : '' },
+                { className: this.state.showMenu && isLoggedIn ? 'addSpacingForMenu' : '' },
                 React.createElement(
                     'header',
-                    { className: 'main bg-dark tc' },
+                    { className: 'main bg-dark tc cf' },
                     React.createElement(
                         'nav',
                         { className: 'wrapper' },
@@ -870,16 +871,7 @@ var Wrapper = React.createClass({
                             { className: 'list-inline' },
                             React.createElement(
                                 'li',
-                                { className: isLoggedIn ? 'fl' : 'hidden' },
-                                React.createElement(
-                                    'a',
-                                    { href: '#', className: 'fa fa-bars menu-item', onClick: this.toggleMenu },
-                                    'Menu'
-                                )
-                            ),
-                            React.createElement(
-                                'li',
-                                null,
+                                { className: isLoggedIn && !showBackButton ? 'fl' : '' },
                                 React.createElement(
                                     _reactRouter.Link,
                                     { to: Home, className: 'menu-item' },
@@ -888,10 +880,28 @@ var Wrapper = React.createClass({
                             ),
                             React.createElement(
                                 'li',
+                                { className: isLoggedIn && showBackButton ? 'fl' : 'hidden' },
+                                React.createElement(
+                                    'a',
+                                    { href: '#', className: 'fa fa-chevron-left menu-item', onClick: this.goBack },
+                                    'Back'
+                                )
+                            ),
+                            React.createElement(
+                                'li',
+                                { className: isLoggedIn ? 'fr' : 'hidden' },
+                                React.createElement(
+                                    'a',
+                                    { href: '#', className: 'fa fa-bars menu-item', onClick: this.toggleMenu },
+                                    'Menu'
+                                )
+                            ),
+                            React.createElement(
+                                'li',
                                 { className: isLoggedIn ? 'fr' : 'hidden' },
                                 React.createElement(
                                     _reactRouter.Link,
-                                    { className: 'menu-item', to: '/u/stream' },
+                                    { className: 'fa fa-plus-square menu-item', to: '/u/stream' },
                                     'Streams'
                                 )
                             ),
@@ -900,7 +910,7 @@ var Wrapper = React.createClass({
                                 { className: isLoggedIn ? 'fr' : 'hidden' },
                                 React.createElement(
                                     _reactRouter.Link,
-                                    { to: '/u/', className: 'fa fa-pencil-square-o fa-3 menu-item' },
+                                    { to: '/u/', className: 'fa fa-edit menu-item' },
                                     'Add New Idea'
                                 )
                             )
@@ -922,6 +932,27 @@ var Wrapper = React.createClass({
                             'p',
                             null,
                             '2015 Staystream.com'
+                        )
+                    )
+                )
+            ),
+            React.createElement(
+                'aside',
+                { className: this.state.showMenu && isLoggedIn ? 'sidebar' : 'sidebar hidden' },
+                React.createElement(
+                    'nav',
+                    null,
+                    React.createElement(
+                        'ul',
+                        { className: 'list-nostyle' },
+                        React.createElement(
+                            'li',
+                            null,
+                            React.createElement(
+                                'a',
+                                { className: 'menu-item-vertical', onClick: this.handleLogout },
+                                'Logout'
+                            )
                         )
                     )
                 )
@@ -1033,12 +1064,18 @@ var _login = require('../components/login.jsx');
 
 var _login2 = _interopRequireDefault(_login);
 
+var _auth = require('../utils/auth.jsx');
+
+var _auth2 = _interopRequireDefault(_auth);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var HomePage = React.createClass({
-    handleClick: function handleClick(event) {
-        event.preventDefault();
-        console.log(this.context, this.props.router);
+    mixins: [_reactRouter.History],
+    componentDidMount: function componentDidMount() {
+        if (_auth2.default.isLoggedIn()) {
+            this.history.pushState(null, '/u');
+        }
     },
     render: function render() {
         return React.createElement(
@@ -1076,7 +1113,7 @@ var HomePage = React.createClass({
 
 module.exports = HomePage;
 
-},{"../components/login.jsx":11,"../components/signup.jsx":12,"react-router":79}],20:[function(require,module,exports){
+},{"../components/login.jsx":11,"../components/signup.jsx":12,"../utils/auth.jsx":28,"react-router":79}],20:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

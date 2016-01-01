@@ -1,14 +1,18 @@
 'use strict'
 
 // Fetch dependencies
-import { Link } from 'react-router'
+import { Link, History } from 'react-router'
 import Signup from '../components/signup.jsx'
 import Login from '../components/login.jsx'
+import Auth from '../utils/auth.jsx'
+
 
 var HomePage = React.createClass({
-    handleClick(event){
-        event.preventDefault()
-        console.log(this.context, this.props.router)
+    mixins: [History],
+    componentDidMount(){
+        if(Auth.isLoggedIn()){
+            this.history.pushState(null, '/u')
+        }
     },
     render(){
         return (
