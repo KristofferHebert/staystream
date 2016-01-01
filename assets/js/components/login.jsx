@@ -45,8 +45,8 @@ var Login = React.createClass({
     render(){
         return (
             <Form method={this.props.method} action={this.props.action} onSubmit={this.handleSubmit} className={this.props.className}>
-                <Input type="text" name="email" placeholder="Email" className="input input-text" onChange={this.handleChange}/>
-                <Input type="password" name="password" placeholder="Password" className="input input-password" onChange={this.handleChange}/>
+                <Input type="text" name="email" placeholder="Email" className="input input-text centered" onChange={this.handleChange}/>
+                <Input type="password" name="password" placeholder="Password" className="input input-password centered" onChange={this.handleChange}/>
                 <Submit value="Login" className="input input-submit"/>
                 {this.state.message}
             </Form>

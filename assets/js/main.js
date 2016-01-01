@@ -518,8 +518,8 @@ var Login = React.createClass({
         return React.createElement(
             Form,
             { method: this.props.method, action: this.props.action, onSubmit: this.handleSubmit, className: this.props.className },
-            React.createElement(Input, { type: 'text', name: 'email', placeholder: 'Email', className: 'input input-text', onChange: this.handleChange }),
-            React.createElement(Input, { type: 'password', name: 'password', placeholder: 'Password', className: 'input input-password', onChange: this.handleChange }),
+            React.createElement(Input, { type: 'text', name: 'email', placeholder: 'Email', className: 'input input-text centered', onChange: this.handleChange }),
+            React.createElement(Input, { type: 'password', name: 'password', placeholder: 'Password', className: 'input input-password centered', onChange: this.handleChange }),
             React.createElement(Submit, { value: 'Login', className: 'input input-submit' }),
             this.state.message
         );
@@ -603,8 +603,8 @@ var Signup = React.createClass({
         return React.createElement(
             _form2.default,
             { onSubmit: this.handleSubmit, className: this.props.className },
-            React.createElement(_input2.default, { type: 'email', name: 'email', placeholder: 'Email', className: 'input input-email', onChange: this.handleChange }),
-            React.createElement(_input2.default, { type: 'password', name: 'password', placeholder: 'Password', className: 'input input-password', onChange: this.handleChange, minLength: '5', required: 'true' }),
+            React.createElement(_input2.default, { type: 'email', name: 'email', placeholder: 'Email', className: 'input input-email centered', onChange: this.handleChange }),
+            React.createElement(_input2.default, { type: 'password', name: 'password', placeholder: 'Password', className: 'input input-password centered', onChange: this.handleChange, minLength: '5', required: 'true' }),
             React.createElement(_submit2.default, { value: 'Sign up', className: 'input input-submit' })
         );
     }
@@ -858,8 +858,8 @@ var Wrapper = React.createClass({
         var showMenu = !this.state.showMenu;
         this.setState({ showMenu: showMenu });
     },
-    handleLogout: function handleLogout() {
-        this.toggleMenu();
+    handleLogout: function handleLogout(event) {
+        this.toggleMenu(event);
         this.history.pushState(null, '/logout');
     },
     isEditPage: function isEditPage() {
@@ -1117,30 +1117,33 @@ var HomePage = React.createClass({
             'div',
             null,
             React.createElement(
-                'h2',
-                null,
-                'Addictive Idea journal'
+                'section',
+                { className: 'section tc' },
+                React.createElement(
+                    'h2',
+                    null,
+                    'Staystream is a free idea journal. It helps you build the habit of writing ideas down daily.'
+                ),
+                React.createElement(
+                    'h3',
+                    null,
+                    'Sign Up – It’s Free.'
+                ),
+                React.createElement(_signup2.default, { className: 'tc' })
             ),
             React.createElement(
-                'p',
-                null,
-                'Organize your ideas'
-            ),
-            React.createElement(
-                'h3',
-                null,
-                'Signup'
-            ),
-            React.createElement(_signup2.default, null),
-            React.createElement(
-                'h3',
-                null,
-                'Login'
-            ),
-            React.createElement(
-                _reactRouter.Link,
-                { to: '/login' },
-                'Click here to login'
+                'div',
+                { className: 'tc' },
+                React.createElement(
+                    'h2',
+                    null,
+                    'Login'
+                ),
+                React.createElement(
+                    _reactRouter.Link,
+                    { to: '/login', className: 'centered' },
+                    'Click here to login'
+                )
             )
         );
     }
@@ -1351,7 +1354,7 @@ var IdeaHomepage = React.createClass({
 exports.default = IdeaHomepage;
 
 },{"../components/deleteresource.jsx":6,"../components/editidea.jsx":7,"../utils/auth.jsx":30}],22:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -1361,12 +1364,12 @@ var Login = require('../components/login.jsx');
 var LoginPage = React.createClass({
     render: function render() {
         return React.createElement(
-            'div',
-            null,
+            "div",
+            { className: "tc" },
             React.createElement(
-                'h3',
+                "h2",
                 null,
-                'Login'
+                "Login"
             ),
             React.createElement(Login, null)
         );

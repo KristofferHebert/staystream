@@ -58,8 +58,8 @@ var Signup = React.createClass({
     render: function(){
         return (
             <Form onSubmit={this.handleSubmit} className={this.props.className}>
-                <Input type="email" name="email" placeholder="Email" className="input input-email" onChange={this.handleChange} />
-                <Input type="password" name="password" placeholder="Password" className="input input-password" onChange={this.handleChange} minLength="5" required="true"/>
+                <Input type="email" name="email" placeholder="Email" className="input input-email centered" onChange={this.handleChange} />
+                <Input type="password" name="password" placeholder="Password" className="input input-password centered" onChange={this.handleChange} minLength="5" required="true"/>
                 <Submit value="Sign up" className="input input-submit"/>
             </Form>
         )

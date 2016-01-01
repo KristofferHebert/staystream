@@ -13,8 +13,8 @@ var Wrapper = React.createClass({
         var showMenu = !this.state.showMenu
         this.setState({showMenu: showMenu})
     },
-    handleLogout(){
-        this.toggleMenu()
+    handleLogout(event){
+        this.toggleMenu(event)
         this.history.pushState(null, '/logout')
     },
     isEditPage(){

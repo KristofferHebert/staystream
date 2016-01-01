@@ -17,12 +17,17 @@ var HomePage = React.createClass({
     render(){
         return (
             <div>
-                <h2>Addictive Idea journal</h2>
-                <p>Organize your ideas</p>
-                <h3>Signup</h3>
-                <Signup />
-                <h3>Login</h3>
-                <Link to={'/login'}>Click here to login</Link>
+                <section className="section tc">
+
+                    <h2>Staystream is a free idea journal. It helps you build the habit of writing ideas down daily.</h2>
+                    <h3>Sign Up – It’s Free.</h3>
+                    <Signup className="tc"/>
+
+                </section>
+                <div  className="tc">
+                    <h2>Login</h2>
+                    <Link to={'/login'} className="centered">Click here to login</Link>
+                </div>
             </div>
         )
     }
