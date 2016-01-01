@@ -204,6 +204,10 @@ body .hidden {
     margin-bottom: .4em;
 }
 
+.db {
+    display: block;
+}
+
 .centered {
     margin-left: auto;
     margin-right: auto;
