@@ -819,7 +819,7 @@ var UserDashBoard = React.createClass({
                     React.createElement(
                         'label',
                         { 'for': 'sendNotifications' },
-                        'Send email Notifications?',
+                        'Send daily email reminders?',
                         React.createElement(_Checkbox2.default, { name: 'sendNotifications', checked: this.props.checked, handleChange: this.props.handleChange, className: 'fl' })
                     )
                 ),

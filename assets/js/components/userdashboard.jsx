@@ -22,7 +22,7 @@ var UserDashBoard = React.createClass({
                         </div>
                     </div>
                     <div className="row mb">
-                        <label for="sendNotifications">Send email Notifications?
+                        <label for="sendNotifications">Send daily email reminders?
                             <Checkbox name="sendNotifications" checked={this.props.checked} handleChange={this.props.handleChange} className="fl"/>
                         </label>
                     </div>

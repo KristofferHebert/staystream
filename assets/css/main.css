@@ -26,7 +26,7 @@ input, select, .btn, .input-content {
 }
 
 input[type="checkbox"] {
-    width: 1em;     
+    width: 1em;
 }
 
 input::-webkit-input-placeholder {
@@ -73,6 +73,22 @@ select {
     top: 0;
     bottom: 0;
     right: 0;
+}
+
+.input-submit, .btn{
+    background: #2b7bb9;
+    cursor: pointer;
+    display: inline-block;
+    font-weight: bold;
+    margin-bottom: .8em;
+    padding: .6em 1.3em;
+    position: relative;
+    text-decoration: none;
+    padding: .8em;
+    border-radius: .3em;
+    color: #fff;
+    max-width: 300px;
+
 }
 
 /* Grid */
@@ -147,7 +163,7 @@ select {
 /*
     Helper classes
 */
-*
+
 body .bg-dark {
     background: #222;
 }
