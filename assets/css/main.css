@@ -25,6 +25,10 @@ input, select, .btn, .input-content {
     font-size: 1em;
 }
 
+input[type="checkbox"] {
+    width: 1em;     
+}
+
 input::-webkit-input-placeholder {
     color: #999;
 }
@@ -176,7 +180,7 @@ body .hidden {
     margin-bottom: .4em;
 }
 
-.cf:after {
+.row:after, .cf:after {
      visibility: hidden;
      display: block;
      font-size: 0;

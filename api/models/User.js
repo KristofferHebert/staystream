@@ -47,6 +47,10 @@ module.exports = {
             type: 'boolean',
             defaultsTo: true
         },
+        sendNotifications: {
+            type: 'boolean',
+            defaultsTo: true
+        },
         toJSON: removePasswordFromJSON
 	},
     beforeUpdate: hashPassword,

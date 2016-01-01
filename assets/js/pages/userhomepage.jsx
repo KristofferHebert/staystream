@@ -45,7 +45,6 @@ var UserHomepage = React.createClass({
             return false
         }
         newIdea.stream = this.state.currentStream
-        console.log(newIdea)
         this.setState({newIdea: newIdea})
         this.saveData(this.state.newIdea)
 
