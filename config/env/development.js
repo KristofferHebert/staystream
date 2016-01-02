@@ -17,8 +17,8 @@ module.exports = {
    * environment (see config/connections.js and config/models.js )           *
    ***************************************************************************/
 
-  models: {
-    connection: 'SS_STAGING_DB'
-  }
-
+   models: {
+       connection: 'SS_STAGING_DB'
+    },
+    port: 1666
 };
