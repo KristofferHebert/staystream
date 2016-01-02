@@ -22,7 +22,7 @@ var StreamDropdown = React.createClass({
         })
 
         return (
-            <select onChange={this.props.handleStreamChange}>
+            <select onChange={this.props.handleStreamChange} className={this.props.className}>
                 {options}
             </select>
         )

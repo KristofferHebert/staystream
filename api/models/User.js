@@ -9,7 +9,10 @@ var enableUnique = (process.env === "production") ? true : false
 var SALT_WORK_FACTOR = 10
 
 function hashPassword(user, next){
-    user.password = EncryptionService.hashPassword(user.password)
+    if(user.password){
+        user.password = EncryptionService.hashPassword(user.password)
+    }
+
     next(null, user)
 }
 

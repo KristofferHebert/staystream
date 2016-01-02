@@ -162,7 +162,7 @@ var IdeaHomepage = React.createClass({
     },
     render(){
         return (
-            <div>
+            <div className="centered">
                 <h2>Edit Idea</h2>
                 <EditIdea idea={this.state.idea}
                     streamId={this.state.streamId}

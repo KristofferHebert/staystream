@@ -9,10 +9,10 @@ var UserDashBoard = React.createClass({
     getInitialState: function() {
         return {
             user: {
-                id: '',
                 email: '',
                 sendNotifications: true
-            }
+            },
+            message: ""
         }
     },
     componentDidMount(){
@@ -30,7 +30,7 @@ var UserDashBoard = React.createClass({
         event.preventDefault()
 
         var user = this.state.user
-        user.sendNotifications = !this.user.state.sendNotifications
+        user.sendNotifications = !this.state.user.sendNotifications
 
         this.setState({
             user: user
@@ -80,7 +80,6 @@ var UserDashBoard = React.createClass({
             response.json().then(function(data){
                 self.setState({
                     user: {
-                        id: data.id,
                         email: data.email,
                         sendNotifications: data.sendNotifications
                     }
@@ -98,12 +97,57 @@ var UserDashBoard = React.createClass({
         }
 
     },
+    handleClick: function(e) {
+        var user = this.state.user
+        user.sendNotifications = e.target.checked
+        this.setState({ user: user })
+    },
     makeRequest(data){
+            console.log(data)
+            delete data.id
+            var token = Auth.getToken()
+            var ID = Auth.getId()
+            var self = this
+            var settings = {
+                method: 'POST',
+                headers: {
+                   'Accept': 'application/json',
+                   'Content-Type': 'application/json',
+                   'Authorization' : 'Bearer: ' + token,
+                },
+               'body': JSON.stringify(data)
+            }
+
+            function handleSuccess(response){
+                response.json().then(function(data){
+
+                    self.setState({
+                        user: {
+                            email: data.email,
+                            sendNotifications: data.sendNotifications
+                        },
+                        message: "Settings Updated"
+                    })
+                })
+            }
+
+            function handleFailure(error){
+                console.log(error)
+                self.setState({
+                    message: "Something went wrong"
+                })
+            }
+
+            if(ID && token){
+                fetch('/api/v1/user/' + ID, settings)
+                .then(handleSuccess, handleFailure)
+            }
 
     },
     handleSubmit(event){
         event.preventDefault()
-        console.log('submit happened')
+        console.log(this.state.user)
+        this.makeRequest(this.state.user)
     },
     render(){
         return (
@@ -111,16 +155,16 @@ var UserDashBoard = React.createClass({
                 <Form onSubmit={this.handleSubmit} className={this.props.className}>
                     <div className="row mb">
                         <div className="half last">
-                            <label for="name" className="mb db">Change Email</label>
-                            <Input type="text" name="name" placeholder="Email" className="input input-email" value={this.state.user.email} onChange={this.handleChange} />
+                            <label htmlFor="name" className="mb db">Change Email</label>
+                            <Input type="email" name="email" placeholder="Email" className="input input-email" value={this.state.user.email} onChange={this.handleChange} />
                         </div>
                     </div>
                     <div className="row mb">
-                        <label for="sendNotifications">Send daily email reminders?
-                            <Checkbox name="sendNotifications" checked={this.state.user.sendNotifications} onChange={this.handleCheckboxChange} className="fl" />
-                        </label>
+                        <Checkbox name="sendNotifications" isChecked={this.state.user.sendNotifications} onChange={this.handleClick} label="Send daily email reminders?" className="inline-block ml"/>
                     </div>
                 <Submit value="Update Settings" className="input input-submit"/>
+                <br />
+                {this.state.message}
                 </Form>
             </div>
         )

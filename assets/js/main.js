@@ -60,7 +60,7 @@ var AddIdea = React.createClass({
                     React.createElement(
                         'div',
                         { className: 'half' },
-                        React.createElement(_input2.default, { type: 'text', name: 'name', placeholder: 'Idea Name', className: 'input input-email', value: this.props.idea.name, onChange: this.props.handleChange })
+                        React.createElement(_input2.default, { type: 'text', name: 'name', placeholder: 'Idea Name', className: 'input input-email full', value: this.props.idea.name, onChange: this.props.handleChange })
                     ),
                     React.createElement(
                         'div',
@@ -68,15 +68,16 @@ var AddIdea = React.createClass({
                         React.createElement(_streamdropdown2.default, { streams: this.props.streams,
                             currentStream: this.props.currentStream,
                             currentStreamName: this.props.currentStreamName,
-                            handleStreamChange: this.props.handleStreamChange })
+                            handleStreamChange: this.props.handleStreamChange,
+                            className: 'full' })
                     )
                 ),
                 React.createElement(_contenteditable2.default, { onChange: this.props.handleContentChange, name: 'content',
                     placeholder: 'Idea Content',
                     minLength: this.props.minimum,
                     html: this.props.idea.content,
-                    className: 'input input-content' }),
-                React.createElement(_submit2.default, { value: 'Save', className: 'input input-submit' })
+                    className: 'input input-content centered full' }),
+                React.createElement(_submit2.default, { value: 'Save', className: 'input input-submit centered' })
             )
         );
     }
@@ -123,18 +124,26 @@ exports.default = AddStream;
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 var Checkbox = React.createClass({
-    render: function render() {
-        return React.createElement("input", {
-            type: "checkbox",
-            name: this.props.name,
-            checked: this.props.checked,
-            className: this.props.className,
-            onChange: this.props.onChange
-        });
-    }
+  render: function render() {
+    return React.createElement(
+      "div",
+      null,
+      React.createElement(
+        "label",
+        { htmlFor: "sendNotifications", className: "fl" },
+        this.props.label
+      ),
+      React.createElement("input", {
+        type: "checkbox",
+        name: this.props.checkbox,
+        className: this.props.className,
+        checked: this.props.isChecked,
+        onChange: this.props.onChange })
+    );
+  }
 });
 
 exports.default = Checkbox;
@@ -732,7 +741,7 @@ var StreamDropdown = React.createClass({
 
         return React.createElement(
             "select",
-            { onChange: this.props.handleStreamChange },
+            { onChange: this.props.handleStreamChange, className: this.props.className },
             options
         );
     }
@@ -839,10 +848,10 @@ var UserDashBoard = React.createClass({
     getInitialState: function getInitialState() {
         return {
             user: {
-                id: '',
                 email: '',
                 sendNotifications: true
-            }
+            },
+            message: ""
         };
     },
     componentDidMount: function componentDidMount() {
@@ -860,7 +869,7 @@ var UserDashBoard = React.createClass({
         event.preventDefault();
 
         var user = this.state.user;
-        user.sendNotifications = !this.user.state.sendNotifications;
+        user.sendNotifications = !this.state.user.sendNotifications;
 
         this.setState({
             user: user
@@ -908,7 +917,6 @@ var UserDashBoard = React.createClass({
             response.json().then(function (data) {
                 self.setState({
                     user: {
-                        id: data.id,
                         email: data.email,
                         sendNotifications: data.sendNotifications
                     }
@@ -924,10 +932,56 @@ var UserDashBoard = React.createClass({
             fetch('/api/v1/user/' + ID, settings).then(handleSuccess, handleFailure);
         }
     },
-    makeRequest: function makeRequest(data) {},
+
+    handleClick: function handleClick(e) {
+        var user = this.state.user;
+        user.sendNotifications = e.target.checked;
+        this.setState({ user: user });
+    },
+    makeRequest: function makeRequest(data) {
+        console.log(data);
+        delete data.id;
+        var token = _auth2.default.getToken();
+        var ID = _auth2.default.getId();
+        var self = this;
+        var settings = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer: ' + token
+            },
+            'body': JSON.stringify(data)
+        };
+
+        function handleSuccess(response) {
+            response.json().then(function (data) {
+
+                self.setState({
+                    user: {
+                        email: data.email,
+                        sendNotifications: data.sendNotifications
+                    },
+                    message: "Settings Updated"
+                });
+            });
+        }
+
+        function handleFailure(error) {
+            console.log(error);
+            self.setState({
+                message: "Something went wrong"
+            });
+        }
+
+        if (ID && token) {
+            fetch('/api/v1/user/' + ID, settings).then(handleSuccess, handleFailure);
+        }
+    },
     handleSubmit: function handleSubmit(event) {
         event.preventDefault();
-        console.log('submit happened');
+        console.log(this.state.user);
+        this.makeRequest(this.state.user);
     },
     render: function render() {
         return React.createElement(
@@ -944,23 +998,20 @@ var UserDashBoard = React.createClass({
                         { className: 'half last' },
                         React.createElement(
                             'label',
-                            { 'for': 'name', className: 'mb db' },
+                            { htmlFor: 'name', className: 'mb db' },
                             'Change Email'
                         ),
-                        React.createElement(_input2.default, { type: 'text', name: 'name', placeholder: 'Email', className: 'input input-email', value: this.state.user.email, onChange: this.handleChange })
+                        React.createElement(_input2.default, { type: 'email', name: 'email', placeholder: 'Email', className: 'input input-email', value: this.state.user.email, onChange: this.handleChange })
                     )
                 ),
                 React.createElement(
                     'div',
                     { className: 'row mb' },
-                    React.createElement(
-                        'label',
-                        { 'for': 'sendNotifications' },
-                        'Send daily email reminders?',
-                        React.createElement(_checkbox2.default, { name: 'sendNotifications', checked: this.state.user.sendNotifications, onChange: this.handleCheckboxChange, className: 'fl' })
-                    )
+                    React.createElement(_checkbox2.default, { name: 'sendNotifications', isChecked: this.state.user.sendNotifications, onChange: this.handleClick, label: 'Send daily email reminders?', className: 'inline-block ml' })
                 ),
-                React.createElement(_submit2.default, { value: 'Update Settings', className: 'input input-submit' })
+                React.createElement(_submit2.default, { value: 'Update Settings', className: 'input input-submit' }),
+                React.createElement('br', null),
+                this.state.message
             )
         );
     }
@@ -1466,7 +1517,7 @@ var IdeaHomepage = React.createClass({
     render: function render() {
         return React.createElement(
             'div',
-            null,
+            { className: 'centered' },
             React.createElement(
                 'h2',
                 null,

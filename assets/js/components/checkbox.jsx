@@ -1,17 +1,19 @@
 'use strict'
 
 var Checkbox = React.createClass({
-    render: function(){
-        return (
+  render() {
+    return (
+        <div>
+            <label htmlFor="sendNotifications" className="fl">{this.props.label}</label>
             <input
-                type="checkbox"
-                name={this.props.name}
-                checked={this.props.checked}
-                className={this.props.className}
-                onChange={this.props.onChange}
-            />
-        )
-    }
+              type="checkbox"
+              name={this.props.checkbox}
+              className={this.props.className}
+              checked={this.props.isChecked}
+              onChange={this.props.onChange} />
+        </div>
+    )
+  }
 })
 
 export default Checkbox
