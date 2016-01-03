@@ -843,12 +843,15 @@ var _auth = require('../utils/auth.jsx');
 
 var _auth2 = _interopRequireDefault(_auth);
 
+var _reactRouter = require('react-router');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var UserDashBoard = React.createClass({
     getInitialState: function getInitialState() {
         return {
             user: {
+                id: '',
                 email: '',
                 sendNotifications: true
             },
@@ -918,6 +921,7 @@ var UserDashBoard = React.createClass({
             response.json().then(function (data) {
                 self.setState({
                     user: {
+                        id: data.id,
                         email: data.email,
                         sendNotifications: data.sendNotifications
                     }
@@ -985,6 +989,9 @@ var UserDashBoard = React.createClass({
         this.makeRequest(this.state.user);
     },
     render: function render() {
+
+        var resetLink = '/reset/' + this.state.user.id;
+
         return React.createElement(
             'div',
             null,
@@ -1013,6 +1020,16 @@ var UserDashBoard = React.createClass({
                 React.createElement(_submit2.default, { value: 'Update Settings', className: 'input input-submit' }),
                 React.createElement('br', null),
                 this.state.message
+            ),
+            React.createElement(
+                'h3',
+                null,
+                'Update User Password'
+            ),
+            React.createElement(
+                _reactRouter.Link,
+                { to: resetLink },
+                'Change Password'
             )
         );
     }
@@ -1020,7 +1037,7 @@ var UserDashBoard = React.createClass({
 
 exports.default = UserDashBoard;
 
-},{"../utils/auth.jsx":33,"./checkbox.jsx":3,"./form.jsx":8,"./input.jsx":10,"./resourceprovider.jsx":12,"./submit.jsx":17}],19:[function(require,module,exports){
+},{"../utils/auth.jsx":33,"./checkbox.jsx":3,"./form.jsx":8,"./input.jsx":10,"./resourceprovider.jsx":12,"./submit.jsx":17,"react-router":84}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

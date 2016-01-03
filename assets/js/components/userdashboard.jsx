@@ -4,11 +4,13 @@ import Form from './form.jsx'
 import Submit from './submit.jsx'
 import ResourceProvider from './resourceprovider.jsx'
 import Auth from '../utils/auth.jsx'
+import {Link} from 'react-router'
 
 var UserDashBoard = React.createClass({
     getInitialState: function() {
         return {
             user: {
+                id: '',
                 email: '',
                 sendNotifications: true
             },
@@ -80,6 +82,7 @@ var UserDashBoard = React.createClass({
             response.json().then(function(data){
                 self.setState({
                     user: {
+                        id: data.id,
                         email: data.email,
                         sendNotifications: data.sendNotifications
                     }
@@ -150,6 +153,9 @@ var UserDashBoard = React.createClass({
         this.makeRequest(this.state.user)
     },
     render(){
+
+        var resetLink ='/reset/' + this.state.user.id
+
         return (
             <div>
                 <Form onSubmit={this.handleSubmit} className={this.props.className}>
@@ -166,6 +172,9 @@ var UserDashBoard = React.createClass({
                 <br />
                 {this.state.message}
                 </Form>
+                <h3>Update User Password</h3>
+                <Link to={resetLink}>Change Password</Link>
+
             </div>
         )
     }
