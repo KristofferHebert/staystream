@@ -1075,7 +1075,7 @@ var UserReset = React.createClass({
         return {
             user: {
                 id: "",
-                password: ""
+                newPassword: ""
             },
             userNotFound: false,
             message: ""
@@ -1128,6 +1128,8 @@ var UserReset = React.createClass({
     },
     makeRequest: function makeRequest(user) {
         var ID = user.id;
+        user.password = user.newPassword;
+        delete user.newPassword;
         var self = this;
         var settings = {
             method: 'POST',
@@ -1140,6 +1142,7 @@ var UserReset = React.createClass({
 
         function handleSuccess(response) {
             response.json().then(function (data) {
+                console.log('user', data);
                 self.setState({
                     message: "Password Updated"
                 });
@@ -1183,7 +1186,7 @@ var UserReset = React.createClass({
                                 { htmlFor: 'name', className: 'mb db' },
                                 'Change Password'
                             ),
-                            React.createElement(_input2.default, { type: 'text', name: 'password', placeholder: 'Password', className: 'input input-email', value: this.state.user.email, onChange: this.handleChange })
+                            React.createElement(_input2.default, { type: 'text', name: 'newPassword', placeholder: 'New Password', className: 'input input-email', value: this.state.user.email, onChange: this.handleChange })
                         )
                     ),
                     React.createElement(_submit2.default, { value: 'Update Password', className: 'input input-submit' })

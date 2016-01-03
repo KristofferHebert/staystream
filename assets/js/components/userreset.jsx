@@ -10,7 +10,7 @@ var UserReset = React.createClass({
         return {
             user: {
                 id: "",
-                password: ""
+                newPassword: ""
             },
             userNotFound: false,
             message: ""
@@ -49,7 +49,7 @@ var UserReset = React.createClass({
             }
 
             response.json().then(function(data){
-                return console.log('user found', data)
+                return console.log('user found', data.email)
             })
         }
 
@@ -65,6 +65,8 @@ var UserReset = React.createClass({
     },
     makeRequest(user){
             var ID = user.id
+            user.password = user.newPassword
+            delete user.newPassword
             var self = this
             var settings = {
                 method: 'POST',
@@ -77,6 +79,7 @@ var UserReset = React.createClass({
 
             function handleSuccess(response){
                 response.json().then(function(data){
+                    console.log('user',data)
                     self.setState({
                         message: "Password Updated"
                     })
@@ -97,7 +100,7 @@ var UserReset = React.createClass({
     },
     handleSubmit(event){
         event.preventDefault()
-        this.makeRequest(this.state.user.password)
+        this.makeRequest(this.state.user)
     },
     render(){
         console.log(this.history)
@@ -109,7 +112,7 @@ var UserReset = React.createClass({
                         <div className="row mb">
                             <div className="half last">
                                 <label htmlFor="name" className="mb db">Change Password</label>
-                                <Input type="text" name="password" placeholder="Password" className="input input-email" value={this.state.user.email} onChange={this.handleChange} />
+                                <Input type="text" name="newPassword" placeholder="New Password" className="input input-email" value={this.state.user.email} onChange={this.handleChange} />
                             </div>
                         </div>
                     <Submit value="Update Password" className="input input-submit"/>
