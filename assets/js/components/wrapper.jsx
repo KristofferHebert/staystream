@@ -35,7 +35,7 @@ var Wrapper = React.createClass({
                     <header className="main bg-dark tc cf">
                         <nav className="wrapper">
                             <ul className="list-inline">
-                                <li className={ (isLoggedIn && !showBackButton) ? 'fl' : ''}><Link to={Home} className="menu-item">Staystream</Link></li>
+                                <li className={ (isLoggedIn && !showBackButton) ? 'fl' : 'hidden'}><Link to={Home} className="menu-item">Staystream</Link></li>
                                 <li className={ (isLoggedIn && showBackButton) ? 'fl' : 'hidden'}><a href="#" className="fa fa-chevron-left menu-item" onClick={this.goBack}>Back</a></li>
                                 <li className={ (isLoggedIn) ? 'fr' : 'hidden'}><a href="#" className="fa fa-bars menu-item" onClick={this.toggleMenu}>Menu</a></li>
                                 <li className={ (isLoggedIn) ? 'fr' : 'hidden'}><Link className="fa fa-plus-square menu-item" to="/u/stream">Streams</Link></li>

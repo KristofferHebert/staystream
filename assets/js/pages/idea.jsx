@@ -174,7 +174,7 @@ var IdeaHomepage = React.createClass({
                     handleContentChange={this.handleContentChange}
                     handleSubmit={this.handleSubmit}
                     html={this.state.idea.content} />
-                <DeleteResource resourceId={this.state.idea.id} endpoint="/api/v1/idea/" className="btn"/>
+                <DeleteResource resourceId={this.state.idea.id} endpoint="/api/v1/idea/" className="btn centered"/>
                 {this.state.message}
             </div>
         )

@@ -27,20 +27,21 @@ var EditIdea = React.createClass({
                 <Form onSubmit={this.props.handleSubmit} className={this.props.className}>
                     <div className="row">
                         <div className="half">
-                            <Input type="text" name="name" placeholder="Idea Name" className="input input-email" value={this.props.idea.name} onChange={this.props.handleChange} />
+                            <Input type="text" name="name" placeholder="Idea Name" className="input input-email full" value={this.props.idea.name} onChange={this.props.handleChange} />
                         </div>
                         <div className="half last">
                             <StreamDropdown streams={this.props.streams}
                                 currentStream={this.props.currentStream}
                                 currentStreamName={this.props.currentStreamName}
-                                handleStreamChange={this.props.handleStreamChange} />
+                                handleStreamChange={this.props.handleStreamChange}
+                                className="full"/>
                         </div>
                     </div>
                     <ContentEditable onChange={this.props.handleContentChange} name="content"
                    placeholder="Idea Content" minLength={this.props.minimum}
-                   className="input input-content"
+                   className="input input-content full"
                    html={this.props.idea.content} />
-                   <Submit value="Save" className="input input-submit"/>
+               <Submit value="Save" className="input input-submit centered"/>
                 </Form>
             </div>
         )
