@@ -1077,6 +1077,7 @@ var UserReset = React.createClass({
                 id: "",
                 password: ""
             },
+            userNotFound: false,
             message: ""
         };
     },
@@ -1108,7 +1109,7 @@ var UserReset = React.createClass({
 
         function handleSuccess(response) {
             if (response.status === 404) {
-                self.setState({ message: 'User not found' });
+                self.setState({ message: 'User not found', userNotFound: true });
                 return;
             }
 
@@ -1166,26 +1167,30 @@ var UserReset = React.createClass({
             'div',
             null,
             React.createElement(
-                _form2.default,
-                { onSubmit: this.handleSubmit, className: this.props.className },
+                'div',
+                { className: this.state.userNotFound ? 'hidden' : '' },
                 React.createElement(
-                    'div',
-                    { className: 'row mb' },
+                    _form2.default,
+                    { onSubmit: this.handleSubmit },
                     React.createElement(
                         'div',
-                        { className: 'half last' },
+                        { className: 'row mb' },
                         React.createElement(
-                            'label',
-                            { htmlFor: 'name', className: 'mb db' },
-                            'Change Password'
-                        ),
-                        React.createElement(_input2.default, { type: 'text', name: 'password', placeholder: 'Password', className: 'input input-email', value: this.state.user.email, onChange: this.handleChange })
-                    )
-                ),
-                React.createElement(_submit2.default, { value: 'Update Password', className: 'input input-submit' }),
-                React.createElement('br', null),
-                this.state.message
-            )
+                            'div',
+                            { className: 'half last' },
+                            React.createElement(
+                                'label',
+                                { htmlFor: 'name', className: 'mb db' },
+                                'Change Password'
+                            ),
+                            React.createElement(_input2.default, { type: 'text', name: 'password', placeholder: 'Password', className: 'input input-email', value: this.state.user.email, onChange: this.handleChange })
+                        )
+                    ),
+                    React.createElement(_submit2.default, { value: 'Update Password', className: 'input input-submit' })
+                )
+            ),
+            React.createElement('br', null),
+            this.state.message
         );
     }
 });

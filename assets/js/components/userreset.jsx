@@ -12,6 +12,7 @@ var UserReset = React.createClass({
                 id: "",
                 password: ""
             },
+            userNotFound: false,
             message: ""
         }
     },
@@ -43,7 +44,7 @@ var UserReset = React.createClass({
 
         function handleSuccess(response){
             if(response.status === 404) {
-                self.setState({message: 'User not found'})
+                self.setState({message: 'User not found', userNotFound: true})
                 return
             }
 
@@ -103,17 +104,19 @@ var UserReset = React.createClass({
 
         return (
             <div>
-                <Form onSubmit={this.handleSubmit} className={this.props.className}>
-                    <div className="row mb">
-                        <div className="half last">
-                            <label htmlFor="name" className="mb db">Change Password</label>
-                            <Input type="text" name="password" placeholder="Password" className="input input-email" value={this.state.user.email} onChange={this.handleChange} />
+                <div className={this.state.userNotFound ? 'hidden' : ''}>
+                    <Form onSubmit={this.handleSubmit}>
+                        <div className="row mb">
+                            <div className="half last">
+                                <label htmlFor="name" className="mb db">Change Password</label>
+                                <Input type="text" name="password" placeholder="Password" className="input input-email" value={this.state.user.email} onChange={this.handleChange} />
+                            </div>
                         </div>
-                    </div>
-                <Submit value="Update Password" className="input input-submit"/>
+                    <Submit value="Update Password" className="input input-submit"/>
+                    </Form>
+                </div>
                 <br />
                 {this.state.message}
-                </Form>
             </div>
         )
     }
