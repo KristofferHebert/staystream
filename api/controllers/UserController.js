@@ -17,8 +17,7 @@ module.exports = {
             if(!user) return res.json({'user': false})
 
             // send email
-            console.log(user.email)
-            EmailService.sendResetPasswordEmail(user.email, function(err, response){
+            EmailService.sendResetPasswordEmail(user, function(err, response){
                 res.json({'user': response})
             })
 
@@ -30,6 +29,7 @@ module.exports = {
         var userId = req.body.id
         var userPassword = req.body.password
 
+        // Update password 
         if(userId && userPassword){
             User.findOne({id: userId}).exec(function(err, user){
 

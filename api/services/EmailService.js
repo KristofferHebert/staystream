@@ -1,20 +1,23 @@
 var sendgrid = require('sendgrid')(sails.config.sendgrid_api)
+var base = sails.config.base
 
 module.exports = {
-	sendResetPasswordEmail: function(email, cb) {
-        var message  = "Hello," +
+	sendResetPasswordEmail: function(user, cb) {
 
-        "Sorry to hear your password has gone missing!(It happens to the best of us.)" +
-        "Here is a link to reset it: ..." +
+		var resetLink = base + "reset/" + user.id
+        var message  = "Hello,<br /><br />" +
 
-        "Thanks!" +
+        "Sorry to hear your password has gone missing!(It happens to the best of us.)<br />" +
+        "Here is a link to reset it: <a href='" + resetLink + "'>Reset your Password</a><br /><br />" +
+
+        "Thanks!<br />" +
         "The Staystream Team"
 
         var payload = {
-			to: email,
+			to: user.email,
 			from: 'noreply@staystream.com',
 			subject: 'Password reset for staystream.com',
-			text: message
+			html: message
 		}
 
 		sendgrid.send(payload, function(err, json) {
