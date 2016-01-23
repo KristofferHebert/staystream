@@ -29,12 +29,9 @@ module.exports = {
         var userId = req.body.id
         var userPassword = req.body.password
 
-        // Update password 
+        // Update password
         if(userId && userPassword){
             User.findOne({id: userId}).exec(function(err, user){
-
-                console.log(err, user)
-
                 if(err) return res.badRequest(err)
 
                 // if no results return false

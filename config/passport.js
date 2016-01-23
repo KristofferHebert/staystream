@@ -1,17 +1,12 @@
 var passport = require('passport')
 var LocalStrategy = require('passport-local').Strategy
 var JwtStrategy = require('passport-jwt').Strategy
+var local = require('./local')
 
-var EXPIRATION = 60 * 24
-
-// TODO: keep in seperate config file
-// var SECRET = process.env.secret
-// var ISSUER = process.env.issuer
-// var AUDIENCE = process.env.audience
-
-var SECRET = 'tNWS6MTXrYc5J97nXD'
-var ISSUER = 'Issuer Name'
-var AUDIENCE = 'sitename.com'
+var EXPIRATION = local.expiration
+var SECRET = local.secret
+var ISSUER = local.issuer
+var AUDIENCE = local.audience
 
 // Configure local Strategy for Passport
 var LOCAL_STRATEGY_CONFIG = {

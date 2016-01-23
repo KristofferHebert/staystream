@@ -1114,7 +1114,7 @@ var UserReset = React.createClass({
             }
 
             response.json().then(function (data) {
-                return console.log('user found', data);
+                return console.log('user found', data.email);
             });
         }
 
@@ -1161,7 +1161,7 @@ var UserReset = React.createClass({
     },
     handleSubmit: function handleSubmit(event) {
         event.preventDefault();
-        this.makeRequest(this.state.user.password);
+        this.makeRequest(this.state.user);
     },
     render: function render() {
         console.log(this.history);

@@ -50,11 +50,11 @@ module.exports.policies = {
 		// feed : ['isNiceToAnimals', 'hasRabbitFood']
 	// }
 
-    // '*': ['isAuthenticated'],
+    '*': ['isAuthenticated'],
 
-    // AuthController: {
-    //     '*': true
-    // },
+    AuthController: {
+        '*': true
+    },
     // UserController: ['isAdmin'],
      IdeaController: {
          'create': ['setOwner']
