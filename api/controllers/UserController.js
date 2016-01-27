@@ -31,7 +31,7 @@ module.exports = {
 
         // Update password
         if(userId && userPassword){
-            User.findOne({id: userId}).exec(function(err, user){
+            User.findOne({id: userId}).exec(function(err, user){    
                 if(err) return res.badRequest(err)
 
                 // if no results return false
