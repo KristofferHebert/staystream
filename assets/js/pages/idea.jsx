@@ -52,7 +52,7 @@ var IdeaHomepage = React.createClass({
         this.setState(newState)
     },
     fetchData(ideaId){
-        var token = Auth.getUser()
+        var token = Auth.getToken()
         var self = this
         var settings = {
             method: 'get',
